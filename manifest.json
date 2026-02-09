@@ -1,0 +1,68 @@
+{
+  "name": "Pong - Classic Arcade Game",
+  "short_name": "Pong",
+  "description": "Experience the timeless classic Pong game. Play 1P vs AI or 2P local multiplayer!",
+  "start_url": "/pong-game/",
+  "scope": "/pong-game/",
+  "display": "fullscreen",
+  "orientation": "portrait-primary",
+  "theme_color": "#e67e22",
+  "background_color": "#0f0f23",
+  "categories": ["games"],
+  "screenshots": [
+    {
+      "src": "icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "icons": [
+    {
+      "src": "icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "1P vs AI",
+      "short_name": "1P Mode",
+      "description": "Play against AI opponent",
+      "url": "/pong-game/?mode=1p",
+      "icons": [
+        {
+          "src": "icon-192.svg",
+          "sizes": "192x192",
+          "type": "image/svg+xml"
+        }
+      ]
+    },
+    {
+      "name": "2P Local",
+      "short_name": "2P Mode",
+      "description": "Play with a friend locally",
+      "url": "/pong-game/?mode=2p",
+      "icons": [
+        {
+          "src": "icon-192.svg",
+          "sizes": "192x192",
+          "type": "image/svg+xml"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "app": {
+    "title": "Pong - Juego Arcade Clásico"
+  },
+  "menu": {
+    "title": "PONG",
+    "subtitle": "Juego Arcade Clásico",
+    "play1p": "1J vs IA",
+    "play2p": "2J Local",
+    "settings": "Configuración",
+    "stats": "Estadísticas",
+    "back": "Atrás"
+  },
+  "settings": {
+    "title": "Configuración",
+    "difficulty": "Dificultad",
+    "easy": "Fácil",
+    "normal": "Normal",
+    "hard": "Difícil",
+    "sound": "Efectos de Sonido",
+    "vibration": "Vibración",
+    "paddleSize": "Tamaño de la Paleta"
+  },
+  "stats": {
+    "title": "Estadísticas",
+    "bestStreak": "Mejor Racha de Victorias",
+    "totalGames": "Juegos Totales",
+    "totalWins": "Victorias Totales",
+    "winRate": "Porcentaje de Victoria",
+    "reset": "Reiniciar Estadísticas"
+  },
+  "game": {
+    "player1": "Jugador 1",
+    "player2": "Jugador 2",
+    "ai": "IA",
+    "pause": "Pausa",
+    "menu": "Menú",
+    "paused": "Juego en Pausa",
+    "resume": "Reanudar",
+    "restart": "Reiniciar",
+    "quit": "Volver al Menú",
+    "gameOver": "Fin del Juego",
+    "duration": "Duración",
+    "finalScore": "Puntuación Final",
+    "replay": "Jugar de Nuevo",
+    "youWin": "¡Ganaste!",
+    "youLose": "¡Perdiste!",
+    "tieGame": "¡Empate!"
+  }
+}

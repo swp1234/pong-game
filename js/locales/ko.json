@@ -1,0 +1,50 @@
+{
+  "app": {
+    "title": "Pong - 클래식 아케이드 게임"
+  },
+  "menu": {
+    "title": "PONG",
+    "subtitle": "클래식 아케이드 게임",
+    "play1p": "1P vs AI",
+    "play2p": "2P 로컬",
+    "settings": "설정",
+    "stats": "통계",
+    "back": "뒤로"
+  },
+  "settings": {
+    "title": "설정",
+    "difficulty": "난이도",
+    "easy": "쉬움",
+    "normal": "보통",
+    "hard": "어려움",
+    "sound": "음성 효과",
+    "vibration": "진동",
+    "paddleSize": "패들 크기"
+  },
+  "stats": {
+    "title": "통계",
+    "bestStreak": "최고 연승",
+    "totalGames": "총 게임 수",
+    "totalWins": "총 승리",
+    "winRate": "승률",
+    "reset": "통계 초기화"
+  },
+  "game": {
+    "player1": "플레이어 1",
+    "player2": "플레이어 2",
+    "ai": "AI",
+    "pause": "일시 정지",
+    "menu": "메뉴",
+    "paused": "게임 일시 정지",
+    "resume": "계속",
+    "restart": "재시작",
+    "quit": "메뉴로",
+    "gameOver": "게임 오버",
+    "duration": "시간",
+    "finalScore": "최종 점수",
+    "replay": "다시 플레이",
+    "youWin": "당신이 이겼습니다!",
+    "youLose": "패배했습니다.",
+    "tieGame": "동점!"
+  }
+}

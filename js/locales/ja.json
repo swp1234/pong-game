@@ -1,0 +1,50 @@
+{
+  "app": {
+    "title": "ポン - クラシック アーケード ゲーム"
+  },
+  "menu": {
+    "title": "ポン",
+    "subtitle": "クラシック アーケード ゲーム",
+    "play1p": "1P vs AI",
+    "play2p": "2P ローカル",
+    "settings": "設定",
+    "stats": "統計",
+    "back": "戻る"
+  },
+  "settings": {
+    "title": "設定",
+    "difficulty": "難易度",
+    "easy": "簡単",
+    "normal": "普通",
+    "hard": "難しい",
+    "sound": "サウンド エフェクト",
+    "vibration": "振動",
+    "paddleSize": "パドル サイズ"
+  },
+  "stats": {
+    "title": "統計",
+    "bestStreak": "最高連勝",
+    "totalGames": "総ゲーム数",
+    "totalWins": "総勝利数",
+    "winRate": "勝率",
+    "reset": "統計をリセット"
+  },
+  "game": {
+    "player1": "プレイヤー 1",
+    "player2": "プレイヤー 2",
+    "ai": "AI",
+    "pause": "一時停止",
+    "menu": "メニュー",
+    "paused": "ゲーム一時停止中",
+    "resume": "再開",
+    "restart": "リスタート",
+    "quit": "メニューに戻る",
+    "gameOver": "ゲーム オーバー",
+    "duration": "時間",
+    "finalScore": "最終スコア",
+    "replay": "もう一度プレイ",
+    "youWin": "あなたが勝ちました！",
+    "youLose": "あなたは負けました。",
+    "tieGame": "同点です！"
+  }
+}

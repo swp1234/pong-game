@@ -1,0 +1,50 @@
+{
+  "app": {
+    "title": "乒乓 - 经典街机游戏"
+  },
+  "menu": {
+    "title": "乒乓",
+    "subtitle": "经典街机游戏",
+    "play1p": "1P vs AI",
+    "play2p": "2P 本地",
+    "settings": "设置",
+    "stats": "统计",
+    "back": "返回"
+  },
+  "settings": {
+    "title": "设置",
+    "difficulty": "难度",
+    "easy": "简单",
+    "normal": "普通",
+    "hard": "困难",
+    "sound": "音效",
+    "vibration": "振动",
+    "paddleSize": "球拍大小"
+  },
+  "stats": {
+    "title": "统计",
+    "bestStreak": "最佳连胜",
+    "totalGames": "总游戏数",
+    "totalWins": "总胜利数",
+    "winRate": "胜率",
+    "reset": "重置统计"
+  },
+  "game": {
+    "player1": "玩家 1",
+    "player2": "玩家 2",
+    "ai": "AI",
+    "pause": "暂停",
+    "menu": "菜单",
+    "paused": "游戏已暂停",
+    "resume": "继续",
+    "restart": "重新开始",
+    "quit": "返回菜单",
+    "gameOver": "游戏结束",
+    "duration": "时长",
+    "finalScore": "最终分数",
+    "replay": "再玩一次",
+    "youWin": "你赢了！",
+    "youLose": "你输了。",
+    "tieGame": "平局！"
+  }
+}

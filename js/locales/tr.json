@@ -1,0 +1,50 @@
+{
+  "app": {
+    "title": "Pong - Klasik Arcade Oyunu"
+  },
+  "menu": {
+    "title": "PONG",
+    "subtitle": "Klasik Arcade Oyunu",
+    "play1p": "1P vs YZ",
+    "play2p": "2P Yerel",
+    "settings": "Ayarlar",
+    "stats": "İstatistikler",
+    "back": "Geri"
+  },
+  "settings": {
+    "title": "Ayarlar",
+    "difficulty": "Zorluk",
+    "easy": "Kolay",
+    "normal": "Normal",
+    "hard": "Zor",
+    "sound": "Ses Efektleri",
+    "vibration": "Titreşim",
+    "paddleSize": "Raket Boyutu"
+  },
+  "stats": {
+    "title": "İstatistikler",
+    "bestStreak": "En İyi Galibiyet Serisi",
+    "totalGames": "Toplam Oyun",
+    "totalWins": "Toplam Galibiyet",
+    "winRate": "Galibiyet Oranı",
+    "reset": "İstatistikleri Sıfırla"
+  },
+  "game": {
+    "player1": "Oyuncu 1",
+    "player2": "Oyuncu 2",
+    "ai": "YZ",
+    "pause": "Duraklat",
+    "menu": "Menü",
+    "paused": "Oyun Duraklatıldı",
+    "resume": "Devam Et",
+    "restart": "Yeniden Başla",
+    "quit": "Menüye Dön",
+    "gameOver": "Oyun Bitti",
+    "duration": "Süre",
+    "finalScore": "Son Skor",
+    "replay": "Tekrar Oyna",
+    "youWin": "Kazandınız!",
+    "youLose": "Kaybettiniz!",
+    "tieGame": "Berabere!"
+  }
+}

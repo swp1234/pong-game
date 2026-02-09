@@ -1,0 +1,50 @@
+{
+  "app": {
+    "title": "Pong - Permainan Arcade Klasik"
+  },
+  "menu": {
+    "title": "PONG",
+    "subtitle": "Permainan Arcade Klasik",
+    "play1p": "1P vs AI",
+    "play2p": "2P Lokal",
+    "settings": "Pengaturan",
+    "stats": "Statistik",
+    "back": "Kembali"
+  },
+  "settings": {
+    "title": "Pengaturan",
+    "difficulty": "Tingkat Kesulitan",
+    "easy": "Mudah",
+    "normal": "Normal",
+    "hard": "Sulit",
+    "sound": "Efek Suara",
+    "vibration": "Getaran",
+    "paddleSize": "Ukuran Raket"
+  },
+  "stats": {
+    "title": "Statistik",
+    "bestStreak": "Rekor Menang Terbaik",
+    "totalGames": "Total Permainan",
+    "totalWins": "Total Kemenangan",
+    "winRate": "Tingkat Kemenangan",
+    "reset": "Reset Statistik"
+  },
+  "game": {
+    "player1": "Pemain 1",
+    "player2": "Pemain 2",
+    "ai": "AI",
+    "pause": "Jeda",
+    "menu": "Menu",
+    "paused": "Permainan Dijeda",
+    "resume": "Lanjutkan",
+    "restart": "Mulai Ulang",
+    "quit": "Kembali ke Menu",
+    "gameOver": "Permainan Berakhir",
+    "duration": "Durasi",
+    "finalScore": "Skor Akhir",
+    "replay": "Mainkan Lagi",
+    "youWin": "Anda Menang!",
+    "youLose": "Anda Kalah!",
+    "tieGame": "Seri!"
+  }
+}

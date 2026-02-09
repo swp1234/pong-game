@@ -1,0 +1,50 @@
+{
+  "app": {
+    "title": "पॉन्ग - क्लासिक आर्केड गेम"
+  },
+  "menu": {
+    "title": "पॉन्ग",
+    "subtitle": "क्लासिक आर्केड गेम",
+    "play1p": "1P vs AI",
+    "play2p": "2P स्थानीय",
+    "settings": "सेटिंग",
+    "stats": "आँकड़े",
+    "back": "वापस"
+  },
+  "settings": {
+    "title": "सेटिंग",
+    "difficulty": "कठिनाई",
+    "easy": "आसान",
+    "normal": "सामान्य",
+    "hard": "कठिन",
+    "sound": "ध्वनि प्रभाव",
+    "vibration": "कंपन",
+    "paddleSize": "पैडल आकार"
+  },
+  "stats": {
+    "title": "आँकड़े",
+    "bestStreak": "सर्वश्रेष्ठ विजय श्रृंखला",
+    "totalGames": "कुल खेल",
+    "totalWins": "कुल जीत",
+    "winRate": "जीत की दर",
+    "reset": "आँकड़े रीसेट करें"
+  },
+  "game": {
+    "player1": "खिलाड़ी 1",
+    "player2": "खिलाड़ी 2",
+    "ai": "AI",
+    "pause": "रोकें",
+    "menu": "मेनू",
+    "paused": "गेम रोका गया",
+    "resume": "जारी रखें",
+    "restart": "पुनः शुरू करें",
+    "quit": "मेनू पर जाएं",
+    "gameOver": "गेम समाप्त",
+    "duration": "अवधि",
+    "finalScore": "अंतिम स्कोर",
+    "replay": "फिर से खेलें",
+    "youWin": "आप जीत गए!",
+    "youLose": "आप हार गए!",
+    "tieGame": "ड्रॉ!"
+  }
+}
