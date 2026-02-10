@@ -638,49 +638,6 @@ window.addEventListener('keyup', (e) => {
     }
 });
 
-// Touch/Mouse handlers for paddles
-let touchStartY = 0;
-
-canvas.addEventListener('touchstart', (e) => {
-    touchStartY = e.touches[0].clientY;
-}, false);
-
-canvas.addEventListener('touchmove', (e) => {
-    e.preventDefault();
-    const touch = e.touches[0];
-    const rect = canvas.getBoundingClientRect();
-    const y = touch.clientY - rect.top;
-
-    if (gameState.gameMode === '2p') {
-        // 2P mode: left/right side
-        const midX = rect.width / 2;
-        const touchX = touch.clientX - rect.left;
-
-        if (touchX < midX) {
-            // Left paddle
-            paddle1.y = y - paddle1.height / 2;
-            paddle1.y = Math.max(0, Math.min(paddle1.y, GAME_CONFIG.CANVAS_HEIGHT - paddle1.height));
-        } else {
-            // Right paddle
-            paddle2.y = y - paddle2.height / 2;
-            paddle2.y = Math.max(0, Math.min(paddle2.y, GAME_CONFIG.CANVAS_HEIGHT - paddle2.height));
-        }
-    } else {
-        // 1P mode: only left paddle
-        paddle1.y = y - paddle1.height / 2;
-        paddle1.y = Math.max(0, Math.min(paddle1.y, GAME_CONFIG.CANVAS_HEIGHT - paddle1.height));
-    }
-}, false);
-
-canvas.addEventListener('mousemove', (e) => {
-    if (gameState.gameMode === '1p' && gameState.isGameRunning) {
-        const rect = canvas.getBoundingClientRect();
-        const y = e.clientY - rect.top;
-        paddle1.y = y - paddle1.height / 2;
-        paddle1.y = Math.max(0, Math.min(paddle1.y, GAME_CONFIG.CANVAS_HEIGHT - paddle1.height));
-    }
-}, false);
-
 // ====================================
 // BUTTON HANDLERS
 // ====================================
@@ -698,6 +655,44 @@ document.addEventListener('DOMContentLoaded', async () => {
     initCanvas();
     loadStats();
     updateStatsUI();
+
+    // Touch/Mouse handlers for paddles (must be after initCanvas)
+    let touchStartY = 0;
+
+    canvas.addEventListener('touchstart', (e) => {
+        touchStartY = e.touches[0].clientY;
+    }, false);
+
+    canvas.addEventListener('touchmove', (e) => {
+        e.preventDefault();
+        const touch = e.touches[0];
+        const rect = canvas.getBoundingClientRect();
+        const y = touch.clientY - rect.top;
+
+        if (gameState.gameMode === '2p') {
+            const midX = rect.width / 2;
+            const touchX = touch.clientX - rect.left;
+            if (touchX < midX) {
+                paddle1.y = y - paddle1.height / 2;
+                paddle1.y = Math.max(0, Math.min(paddle1.y, GAME_CONFIG.CANVAS_HEIGHT - paddle1.height));
+            } else {
+                paddle2.y = y - paddle2.height / 2;
+                paddle2.y = Math.max(0, Math.min(paddle2.y, GAME_CONFIG.CANVAS_HEIGHT - paddle2.height));
+            }
+        } else {
+            paddle1.y = y - paddle1.height / 2;
+            paddle1.y = Math.max(0, Math.min(paddle1.y, GAME_CONFIG.CANVAS_HEIGHT - paddle1.height));
+        }
+    }, false);
+
+    canvas.addEventListener('mousemove', (e) => {
+        if (gameState.gameMode === '1p' && gameState.isGameRunning) {
+            const rect = canvas.getBoundingClientRect();
+            const y = e.clientY - rect.top;
+            paddle1.y = y - paddle1.height / 2;
+            paddle1.y = Math.max(0, Math.min(paddle1.y, GAME_CONFIG.CANVAS_HEIGHT - paddle1.height));
+        }
+    }, false);
 
     // Menu buttons
     document.getElementById('btn-1p').addEventListener('click', () => startGame('1p'));
