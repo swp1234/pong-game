@@ -3,7 +3,7 @@
  * Enables offline functionality and caching
  */
 
-const CACHE_NAME = 'pong-game-v1';
+const CACHE_NAME = 'pong-game-v2';
 const urlsToCache = [
     '/',
     '/index.html',
@@ -72,33 +72,23 @@ self.addEventListener('fetch', event => {
         return;
     }
 
+    // Network-first strategy: try network, fall back to cache
     event.respondWith(
-        caches.match(event.request)
+        fetch(event.request)
             .then(response => {
-                // Return from cache if available
-                if (response) {
-                    return response;
+                if (!response || response.status !== 200) {
+                    return caches.match(event.request).then(r => r || response);
                 }
 
-                return fetch(event.request).then(response => {
-                    // Don't cache non-successful responses
-                    if (!response || response.status !== 200 || response.type !== 'basic') {
-                        return response;
-                    }
+                const responseToCache = response.clone();
+                caches.open(CACHE_NAME)
+                    .then(cache => {
+                        cache.put(event.request, responseToCache);
+                    });
 
-                    // Clone the response
-                    const responseToCache = response.clone();
-
-                    caches.open(CACHE_NAME)
-                        .then(cache => {
-                            cache.put(event.request, responseToCache);
-                        });
-
-                    return response;
-                });
+                return response;
             })
             .catch(() => {
-                // Return offline page or cached response
                 return caches.match(event.request);
             })
     );

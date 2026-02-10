@@ -9,7 +9,8 @@
     "play2p": "2P Lokal",
     "settings": "Pengaturan",
     "stats": "Statistik",
-    "back": "Kembali"
+    "back": "Kembali",
+    "help": "Cara bermain"
   },
   "settings": {
     "title": "Pengaturan",
@@ -47,5 +48,16 @@
     "youLose": "Anda Kalah!",
     "tieGame": "Seri!",
     "controlHint": "P1: tombol W/S | P2: panah ↑/↓"
+  },
+  "help": {
+    "title": "Cara bermain",
+    "goal": "Tujuan",
+    "goalDesc": "Cetak 11 poin dengan melewatkan bola melewati dayung lawan.",
+    "mode1p": "1P vs AI",
+    "mode2p": "2P Lokal",
+    "moveUpDown": "Gerak atas/bawah",
+    "mouseControl": "Gerakan mouse",
+    "touchControl": "Sentuh & seret",
+    "touch2p": "Sisi kiri = P1 / Sisi kanan = P2"
   }
 }

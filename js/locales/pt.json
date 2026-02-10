@@ -9,7 +9,8 @@
     "play2p": "2J Local",
     "settings": "Configurações",
     "stats": "Estatísticas",
-    "back": "Voltar"
+    "back": "Voltar",
+    "help": "Como jogar"
   },
   "settings": {
     "title": "Configurações",
@@ -47,5 +48,16 @@
     "youLose": "Você Perdeu!",
     "tieGame": "Empate!",
     "controlHint": "P1: teclas W/S | P2: setas ↑/↓"
+  },
+  "help": {
+    "title": "Como jogar",
+    "goal": "Objetivo",
+    "goalDesc": "Marque 11 pontos passando a bola pela raquete do adversário.",
+    "mode1p": "1P vs IA",
+    "mode2p": "2P Local",
+    "moveUpDown": "Mover cima/baixo",
+    "mouseControl": "Movimento do mouse",
+    "touchControl": "Tocar e arrastar",
+    "touch2p": "Metade esquerda = P1 / Metade direita = P2"
   }
 }

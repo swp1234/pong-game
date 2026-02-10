@@ -9,7 +9,8 @@
     "play2p": "2J Local",
     "settings": "Paramètres",
     "stats": "Statistiques",
-    "back": "Retour"
+    "back": "Retour",
+    "help": "Comment jouer"
   },
   "settings": {
     "title": "Paramètres",
@@ -47,5 +48,16 @@
     "youLose": "Vous avez perdu!",
     "tieGame": "Égalité!",
     "controlHint": "P1: touches W/S | P2: flèches ↑/↓"
+  },
+  "help": {
+    "title": "Comment jouer",
+    "goal": "Objectif",
+    "goalDesc": "Marquez 11 points en envoyant la balle derrière la raquette adverse.",
+    "mode1p": "1P vs IA",
+    "mode2p": "2P Local",
+    "moveUpDown": "Monter/descendre",
+    "mouseControl": "Mouvement de souris",
+    "touchControl": "Toucher et glisser",
+    "touch2p": "Moitié gauche = P1 / Moitié droite = P2"
   }
 }

@@ -9,7 +9,8 @@
     "play2p": "2P ローカル",
     "settings": "設定",
     "stats": "統計",
-    "back": "戻る"
+    "back": "戻る",
+    "help": "遊び方"
   },
   "settings": {
     "title": "設定",
@@ -47,5 +48,16 @@
     "youLose": "あなたは負けました。",
     "tieGame": "同点です！",
     "controlHint": "P1: W/Sキー | P2: ↑/↓キー"
+  },
+  "help": {
+    "title": "遊び方",
+    "goal": "目標",
+    "goalDesc": "相手のパドルを越えてボールを通し、11点先取しましょう。",
+    "mode1p": "1P vs AI",
+    "mode2p": "2P ローカル",
+    "moveUpDown": "上/下に移動",
+    "mouseControl": "マウス操作",
+    "touchControl": "タッチ＆ドラッグ",
+    "touch2p": "左半分 = P1 / 右半分 = P2"
   }
 }

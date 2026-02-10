@@ -9,7 +9,8 @@
     "play2p": "2P 本地",
     "settings": "设置",
     "stats": "统计",
-    "back": "返回"
+    "back": "返回",
+    "help": "玩法说明"
   },
   "settings": {
     "title": "设置",
@@ -47,5 +48,16 @@
     "youLose": "你输了。",
     "tieGame": "平局！",
     "controlHint": "P1: W/S键 | P2: 方向键↑/↓"
+  },
+  "help": {
+    "title": "玩法说明",
+    "goal": "目标",
+    "goalDesc": "将球打过对手的挡板，先得11分获胜。",
+    "mode1p": "1P vs AI",
+    "mode2p": "2P 本地",
+    "moveUpDown": "上/下移动",
+    "mouseControl": "鼠标移动",
+    "touchControl": "触摸拖动",
+    "touch2p": "左半边 = P1 / 右半边 = P2"
   }
 }

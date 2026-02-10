@@ -3,6 +3,7 @@
    ==================================== */
 
 :root {
+    color-scheme: dark;
     --primary-color: #e67e22;
     --bg-dark: #0f0f23;
     --bg-darker: #0a0a15;
@@ -317,6 +318,101 @@ html, body {
     border-color: var(--primary-color);
     box-shadow: var(--border-glow);
     transform: scale(1.1);
+}
+
+/* ====================================
+   HELP SCREEN
+   ==================================== */
+
+.help-content {
+    background: rgba(10, 10, 21, 0.8);
+    backdrop-filter: blur(10px);
+    border: 2px solid var(--primary-color);
+    border-radius: 12px;
+    padding: 30px;
+    max-width: 440px;
+    width: 90%;
+    box-shadow: var(--border-glow-strong);
+    animation: fadeIn 0.3s ease;
+    max-height: 85vh;
+    overflow-y: auto;
+}
+
+.help-content h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: var(--primary-color);
+    text-align: center;
+}
+
+.help-section {
+    margin-bottom: 20px;
+}
+
+.help-section h3 {
+    font-size: 15px;
+    color: var(--accent-neon);
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+}
+
+.help-section p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.help-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.help-control-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    background: rgba(230, 126, 34, 0.08);
+    border-radius: 6px;
+    font-size: 13px;
+}
+
+.help-key {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 50px;
+    padding: 4px 10px;
+    background: rgba(230, 126, 34, 0.15);
+    border: 1px solid rgba(230, 126, 34, 0.4);
+    border-radius: 4px;
+    font-family: monospace;
+    font-weight: 700;
+    color: var(--primary-color);
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.help-badge {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+}
+
+.help-badge.p1 {
+    background: rgba(0, 212, 255, 0.2);
+    color: var(--accent-neon);
+    border: 1px solid rgba(0, 212, 255, 0.4);
+}
+
+.help-badge.p2 {
+    background: rgba(230, 126, 34, 0.2);
+    color: var(--primary-color);
+    border: 1px solid rgba(230, 126, 34, 0.4);
 }
 
 /* ====================================

@@ -9,7 +9,8 @@
     "play2p": "2P 로컬",
     "settings": "설정",
     "stats": "통계",
-    "back": "뒤로"
+    "back": "뒤로",
+    "help": "도움말"
   },
   "settings": {
     "title": "설정",
@@ -47,5 +48,16 @@
     "youLose": "패배했습니다.",
     "tieGame": "동점!",
     "controlHint": "P1: W/S 키 | P2: 방향키 ↑/↓"
+  },
+  "help": {
+    "title": "게임 방법",
+    "goal": "목표",
+    "goalDesc": "공을 상대 패들 뒤로 보내 11점을 먼저 획득하세요.",
+    "mode1p": "1P vs AI",
+    "mode2p": "2P 로컬",
+    "moveUpDown": "위/아래 이동",
+    "mouseControl": "마우스 이동",
+    "touchControl": "터치 & 드래그",
+    "touch2p": "왼쪽 절반 = P1 / 오른쪽 절반 = P2"
   }
 }

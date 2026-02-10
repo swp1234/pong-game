@@ -9,7 +9,8 @@
     "play2p": "2S Lokal",
     "settings": "Einstellungen",
     "stats": "Statistiken",
-    "back": "Zurück"
+    "back": "Zurück",
+    "help": "Spielanleitung"
   },
   "settings": {
     "title": "Einstellungen",
@@ -47,5 +48,16 @@
     "youLose": "Sie verlieren!",
     "tieGame": "Unentschieden!",
     "controlHint": "P1: W/S-Tasten | P2: Pfeiltasten ↑/↓"
+  },
+  "help": {
+    "title": "Spielanleitung",
+    "goal": "Ziel",
+    "goalDesc": "Erziele 11 Punkte, indem du den Ball am Schläger des Gegners vorbeibringst.",
+    "mode1p": "1P vs KI",
+    "mode2p": "2P Lokal",
+    "moveUpDown": "Auf/Ab bewegen",
+    "mouseControl": "Mausbewegung",
+    "touchControl": "Tippen & ziehen",
+    "touch2p": "Linke Hälfte = P1 / Rechte Hälfte = P2"
   }
 }

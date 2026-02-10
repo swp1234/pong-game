@@ -9,7 +9,8 @@
     "play2p": "2J Local",
     "settings": "Configuración",
     "stats": "Estadísticas",
-    "back": "Atrás"
+    "back": "Atrás",
+    "help": "Cómo jugar"
   },
   "settings": {
     "title": "Configuración",
@@ -47,5 +48,16 @@
     "youLose": "¡Perdiste!",
     "tieGame": "¡Empate!",
     "controlHint": "P1: teclas W/S | P2: flechas ↑/↓"
+  },
+  "help": {
+    "title": "Cómo jugar",
+    "goal": "Objetivo",
+    "goalDesc": "Anota 11 puntos pasando la pelota por la paleta del rival.",
+    "mode1p": "1P vs IA",
+    "mode2p": "2P Local",
+    "moveUpDown": "Mover arriba/abajo",
+    "mouseControl": "Movimiento del ratón",
+    "touchControl": "Tocar y arrastrar",
+    "touch2p": "Mitad izquierda = P1 / Mitad derecha = P2"
   }
 }

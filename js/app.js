@@ -741,6 +741,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         showScreen('stats-screen');
     });
 
+    // Help button
+    document.getElementById('btn-help').addEventListener('click', () => showScreen('help-screen'));
+    document.getElementById('btn-help-back').addEventListener('click', () => showScreen('menu-screen'));
+
     // Settings buttons
     document.getElementById('btn-settings-back').addEventListener('click', () => showScreen('menu-screen'));
 

@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#e67e22">
+    <meta name="theme-color" content="#0f0f23">
+    <meta name="color-scheme" content="dark">
     <meta name="robots" content="max-image-preview:large">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3600813755953882" crossorigin="anonymous"></script>
     <title data-i18n="app.title">Pong - Classic Arcade Game</title>
@@ -64,9 +65,66 @@
                 <div class="menu-buttons">
                     <button id="btn-1p" class="btn btn-primary" data-i18n="menu.play1p">1P vs AI</button>
                     <button id="btn-2p" class="btn btn-secondary" data-i18n="menu.play2p">2P Local</button>
+                    <button id="btn-help" class="btn btn-outline" data-i18n="menu.help">How to Play</button>
                     <button id="btn-settings" class="btn btn-outline" data-i18n="menu.settings">Settings</button>
                     <button id="btn-stats" class="btn btn-outline" data-i18n="menu.stats">Stats</button>
                 </div>
+            </div>
+        </div>
+
+        <!-- Help Screen -->
+        <div id="help-screen" class="screen">
+            <div class="help-content">
+                <h2 data-i18n="help.title">How to Play</h2>
+
+                <div class="help-section">
+                    <h3 data-i18n="help.goal">Goal</h3>
+                    <p data-i18n="help.goalDesc">Score 11 points by getting the ball past your opponent's paddle.</p>
+                </div>
+
+                <div class="help-section">
+                    <h3 data-i18n="help.mode1p">1P vs AI</h3>
+                    <div class="help-controls">
+                        <div class="help-control-item">
+                            <span class="help-key">W / S</span>
+                            <span data-i18n="help.moveUpDown">Move Up / Down</span>
+                        </div>
+                        <div class="help-control-item">
+                            <span class="help-key">↑ / ↓</span>
+                            <span data-i18n="help.moveUpDown">Move Up / Down</span>
+                        </div>
+                        <div class="help-control-item">
+                            <span class="help-key">🖱️</span>
+                            <span data-i18n="help.mouseControl">Mouse movement</span>
+                        </div>
+                        <div class="help-control-item">
+                            <span class="help-key">📱</span>
+                            <span data-i18n="help.touchControl">Touch & drag</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="help-section">
+                    <h3 data-i18n="help.mode2p">2P Local</h3>
+                    <div class="help-controls">
+                        <div class="help-control-item">
+                            <span class="help-badge p1">P1</span>
+                            <span class="help-key">W / S</span>
+                            <span data-i18n="help.moveUpDown">Move Up / Down</span>
+                        </div>
+                        <div class="help-control-item">
+                            <span class="help-badge p2">P2</span>
+                            <span class="help-key">↑ / ↓</span>
+                            <span data-i18n="help.moveUpDown">Move Up / Down</span>
+                        </div>
+                        <div class="help-control-item">
+                            <span class="help-key">📱</span>
+                            <span data-i18n="help.touch2p">Left half = P1 / Right half = P2</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="btn-help-back" class="btn btn-secondary" data-i18n="menu.back">Back</button>
             </div>
         </div>
 

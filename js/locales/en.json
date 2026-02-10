@@ -9,7 +9,8 @@
     "play2p": "2P Local",
     "settings": "Settings",
     "stats": "Stats",
-    "back": "Back"
+    "back": "Back",
+    "help": "How to Play"
   },
   "settings": {
     "title": "Settings",
@@ -47,5 +48,16 @@
     "youLose": "You Lost!",
     "tieGame": "Tie Game!",
     "controlHint": "P1: W/S keys | P2: Arrow Up/Down"
+  },
+  "help": {
+    "title": "How to Play",
+    "goal": "Goal",
+    "goalDesc": "Score 11 points by getting the ball past your opponent's paddle.",
+    "mode1p": "1P vs AI",
+    "mode2p": "2P Local",
+    "moveUpDown": "Move Up / Down",
+    "mouseControl": "Mouse movement",
+    "touchControl": "Touch & drag",
+    "touch2p": "Left half = P1 / Right half = P2"
   }
 }
