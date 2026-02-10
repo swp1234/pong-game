@@ -149,8 +149,3 @@ class I18n {
 
 // Create global i18n instance
 const i18n = new I18n();
-
-// Initialize i18n on page load
-document.addEventListener('DOMContentLoaded', async () => {
-    await i18n.init();
-});

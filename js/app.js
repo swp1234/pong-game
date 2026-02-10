@@ -686,7 +686,15 @@ canvas.addEventListener('mousemove', (e) => {
 // ====================================
 
 document.addEventListener('DOMContentLoaded', async () => {
-    await i18n.init();
+    // Initialize i18n first, but don't let it block the game
+    try {
+        if (typeof i18n !== 'undefined' && i18n.init) {
+            await i18n.init();
+        }
+    } catch (e) {
+        console.warn('i18n initialization failed, continuing with defaults:', e);
+    }
+
     initCanvas();
     loadStats();
     updateStatsUI();
