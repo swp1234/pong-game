@@ -45,6 +45,7 @@
     "replay": "もう一度プレイ",
     "youWin": "あなたが勝ちました！",
     "youLose": "あなたは負けました。",
-    "tieGame": "同点です！"
+    "tieGame": "同点です！",
+    "controlHint": "P1: W/Sキー | P2: ↑/↓キー"
   }
 }

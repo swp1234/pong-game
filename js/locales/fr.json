@@ -45,6 +45,7 @@
     "replay": "Rejouer",
     "youWin": "Vous avez gagné!",
     "youLose": "Vous avez perdu!",
-    "tieGame": "Égalité!"
+    "tieGame": "Égalité!",
+    "controlHint": "P1: touches W/S | P2: flèches ↑/↓"
   }
 }

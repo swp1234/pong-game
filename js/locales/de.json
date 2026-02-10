@@ -45,6 +45,7 @@
     "replay": "Nochmal Spielen",
     "youWin": "Sie gewinnen!",
     "youLose": "Sie verlieren!",
-    "tieGame": "Unentschieden!"
+    "tieGame": "Unentschieden!",
+    "controlHint": "P1: W/S-Tasten | P2: Pfeiltasten ↑/↓"
   }
 }

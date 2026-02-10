@@ -45,6 +45,7 @@
     "replay": "Play Again",
     "youWin": "You Won!",
     "youLose": "You Lost!",
-    "tieGame": "Tie Game!"
+    "tieGame": "Tie Game!",
+    "controlHint": "P1: W/S keys | P2: Arrow Up/Down"
   }
 }

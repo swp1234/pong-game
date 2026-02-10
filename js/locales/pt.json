@@ -45,6 +45,7 @@
     "replay": "Jogar Novamente",
     "youWin": "Você Venceu!",
     "youLose": "Você Perdeu!",
-    "tieGame": "Empate!"
+    "tieGame": "Empate!",
+    "controlHint": "P1: teclas W/S | P2: setas ↑/↓"
   }
 }

@@ -45,6 +45,7 @@
     "replay": "Tekrar Oyna",
     "youWin": "Kazandınız!",
     "youLose": "Kaybettiniz!",
-    "tieGame": "Berabere!"
+    "tieGame": "Berabere!",
+    "controlHint": "P1: W/S tuşları | P2: ok tuşları ↑/↓"
   }
 }

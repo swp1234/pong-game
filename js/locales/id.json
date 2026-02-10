@@ -45,6 +45,7 @@
     "replay": "Mainkan Lagi",
     "youWin": "Anda Menang!",
     "youLose": "Anda Kalah!",
-    "tieGame": "Seri!"
+    "tieGame": "Seri!",
+    "controlHint": "P1: tombol W/S | P2: panah ↑/↓"
   }
 }

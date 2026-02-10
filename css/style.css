@@ -234,6 +234,92 @@ html, body {
 }
 
 /* ====================================
+   BUTTON SYSTEM (.btn variants)
+   ==================================== */
+
+.btn {
+    padding: 16px 32px;
+    font-size: 16px;
+    font-weight: 600;
+    border: 2px solid var(--primary-color);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--primary-color);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    min-height: 44px;
+    position: relative;
+    overflow: hidden;
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+.btn:hover, .btn:active {
+    transform: translateY(-2px);
+    box-shadow: var(--border-glow-strong);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-color), #d35400);
+    color: #fff;
+    border-color: var(--primary-color);
+    box-shadow: var(--border-glow);
+}
+
+.btn-primary:hover, .btn-primary:active {
+    background: linear-gradient(135deg, #d35400, var(--primary-color));
+    box-shadow: var(--border-glow-strong), inset 0 0 20px rgba(255,255,255,0.1);
+}
+
+.btn-secondary {
+    background: rgba(230, 126, 34, 0.15);
+    color: var(--primary-color);
+}
+
+.btn-secondary:hover, .btn-secondary:active {
+    background: var(--accent-glow);
+    box-shadow: var(--border-glow);
+}
+
+.btn-outline {
+    background: transparent;
+    color: var(--text-secondary);
+    border-color: rgba(230, 126, 34, 0.4);
+}
+
+.btn-outline:hover, .btn-outline:active {
+    background: rgba(230, 126, 34, 0.1);
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-icon {
+    width: 36px;
+    height: 36px;
+    border: 1.5px solid rgba(230, 126, 34, 0.5);
+    border-radius: 8px;
+    background: rgba(230, 126, 34, 0.1);
+    color: var(--primary-color);
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    padding: 0;
+}
+
+.btn-icon:hover, .btn-icon:active {
+    background: var(--accent-glow);
+    border-color: var(--primary-color);
+    box-shadow: var(--border-glow);
+    transform: scale(1.1);
+}
+
+/* ====================================
    SETTINGS & STATS SCREENS
    ==================================== */
 
@@ -379,29 +465,28 @@ html, body {
 
 .game-header {
     width: 100%;
-    padding: 15px 20px;
-    background: rgba(10, 10, 21, 0.5);
+    padding: 12px 20px;
+    background: rgba(10, 10, 21, 0.8);
     border-bottom: 2px solid var(--primary-color);
-    backdrop-filter: blur(5px);
+    backdrop-filter: blur(10px);
     z-index: 30;
-}
-
-.score-display {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
-    gap: 20px;
+    gap: 10px;
 }
 
 .player-info {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 5px;
+    gap: 4px;
+    min-width: 70px;
 }
 
-.player-name {
-    font-size: 12px;
+.player-name,
+.player-info > span:first-child {
+    font-size: 11px;
     color: var(--text-secondary);
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -412,58 +497,110 @@ html, body {
     font-weight: 900;
     color: var(--primary-color);
     text-shadow: 0 0 20px var(--accent-glow);
-    min-width: 50px;
+    min-width: 40px;
     text-align: center;
+    line-height: 1;
 }
 
-.game-time {
+.game-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+#game-time {
     font-size: 18px;
     color: var(--accent-neon);
     font-weight: 600;
     letter-spacing: 1px;
+    font-variant-numeric: tabular-nums;
+}
+
+.game-info .game-controls {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.canvas-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
 }
 
 #game-canvas {
-    flex: 1;
     display: block;
     max-width: 100%;
-    max-height: calc(100vh - 180px);
+    max-height: 100%;
     background: radial-gradient(circle at 50% 50%, rgba(230, 126, 34, 0.05) 0%, transparent 70%);
     image-rendering: pixelated;
     image-rendering: crisp-edges;
     touch-action: none;
 }
 
-.game-controls {
+.particles-container {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    padding: 15px 20px;
-    background: rgba(10, 10, 21, 0.5);
-    border-top: 2px solid var(--primary-color);
-    backdrop-filter: blur(5px);
+    height: 100%;
+    pointer-events: none;
+    z-index: 25;
+    overflow: hidden;
+}
+
+/* Score summary in gameover */
+.score-summary {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.score-item {
+    background: rgba(230, 126, 34, 0.1);
+    border: 1px solid rgba(230, 126, 34, 0.3);
+    border-radius: 8px;
+    padding: 15px 12px;
     display: flex;
-    gap: 10px;
-    justify-content: center;
-    flex-wrap: wrap;
-    z-index: 30;
+    flex-direction: column;
+    gap: 6px;
+    text-align: center;
 }
 
-.control-btn {
-    padding: 12px 24px;
-    font-size: 14px;
-    font-weight: 600;
-    border: 2px solid var(--primary-color);
-    border-radius: 6px;
-    background: transparent;
+.score-item span:first-child {
+    font-size: 11px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.score-item span:last-child {
+    font-size: 22px;
+    font-weight: 800;
     color: var(--primary-color);
-    cursor: pointer;
-    transition: all 0.2s ease;
-    min-height: 44px;
 }
 
-.control-btn:hover, .control-btn:active {
-    background: var(--accent-glow);
-    box-shadow: var(--border-glow);
-    transform: translateY(-2px);
+/* 2P control hint */
+.control-hint {
+    background: rgba(0, 212, 255, 0.15);
+    border: 1px solid rgba(0, 212, 255, 0.4);
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 13px;
+    color: var(--accent-neon);
+    text-align: center;
+    letter-spacing: 0.5px;
+    animation: fadeIn 0.3s ease;
+    width: 100%;
+}
+
+.control-hint.hidden {
+    display: none;
 }
 
 /* ====================================
@@ -569,7 +706,7 @@ html, body {
         font-size: 14px;
     }
 
-    .menu-btn {
+    .btn, .menu-btn {
         padding: 14px 24px;
         font-size: 14px;
     }
@@ -578,15 +715,11 @@ html, body {
         font-size: 24px;
     }
 
-    #game-canvas {
-        max-height: calc(100vh - 150px);
+    .game-header {
+        padding: 10px 15px;
     }
 
-    .score-display {
-        gap: 10px;
-    }
-
-    .gameover-stats {
+    .gameover-stats, .score-summary {
         grid-template-columns: 1fr;
     }
 
@@ -601,7 +734,7 @@ html, body {
         letter-spacing: 3px;
     }
 
-    .menu-btn {
+    .btn, .menu-btn {
         padding: 12px 20px;
         font-size: 13px;
     }
@@ -615,17 +748,20 @@ html, body {
         font-size: 20px;
     }
 
-    .player-name {
+    .player-name,
+    .player-info > span:first-child {
         font-size: 10px;
     }
 
-    .control-btn {
-        padding: 10px 16px;
-        font-size: 12px;
+    .game-header {
+        padding: 8px 10px;
+        gap: 6px;
     }
 
-    #game-canvas {
-        max-height: calc(100vh - 120px);
+    .btn-icon {
+        width: 32px;
+        height: 32px;
+        font-size: 14px;
     }
 
     .ad-banner {
@@ -666,12 +802,18 @@ html, body {
     }
     100% {
         opacity: 0;
-        transform: translate(var(--tx), var(--ty))) scale(0);
+        transform: translate(var(--tx), var(--ty)) scale(0);
     }
 }
 
 .particle {
     animation: particle-burst 0.6s ease-out forwards;
+}
+
+/* Buttons inside overlay panels */
+.pause-content .btn,
+.gameover-content .btn {
+    margin-top: 10px;
 }
 
 /* ====================================
@@ -692,16 +834,4 @@ input[type="range"]:focus-visible {
     outline-offset: 2px;
 }
 
-/* ====================================
-   DARK MODE (already default)
-   ==================================== */
-
-@media (prefers-color-scheme: light) {
-    :root {
-        --bg-dark: #f5f5f5;
-        --bg-darker: #eeeeee;
-        --text-primary: #1a1a1a;
-        --text-secondary: #666666;
-        --accent-glow: rgba(230, 126, 34, 0.15);
-    }
-}
+/* Dark mode is always active (dark-first design) */

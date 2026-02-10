@@ -45,6 +45,7 @@
     "replay": "再玩一次",
     "youWin": "你赢了！",
     "youLose": "你输了。",
-    "tieGame": "平局！"
+    "tieGame": "平局！",
+    "controlHint": "P1: W/S键 | P2: 方向键↑/↓"
   }
 }

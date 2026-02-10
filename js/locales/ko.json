@@ -45,6 +45,7 @@
     "replay": "다시 플레이",
     "youWin": "당신이 이겼습니다!",
     "youLose": "패배했습니다.",
-    "tieGame": "동점!"
+    "tieGame": "동점!",
+    "controlHint": "P1: W/S 키 | P2: 방향키 ↑/↓"
   }
 }

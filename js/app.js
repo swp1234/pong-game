@@ -79,8 +79,8 @@ function initCanvas() {
 
 function resizeCanvas() {
     const container = canvas.parentElement;
-    const maxWidth = Math.min(window.innerWidth - 40, GAME_CONFIG.CANVAS_WIDTH);
-    const maxHeight = Math.min(window.innerHeight - 280, GAME_CONFIG.CANVAS_HEIGHT);
+    const maxWidth = container.clientWidth || (window.innerWidth - 20);
+    const maxHeight = container.clientHeight || (window.innerHeight - 200);
 
     const scale = Math.min(maxWidth / GAME_CONFIG.CANVAS_WIDTH, maxHeight / GAME_CONFIG.CANVAS_HEIGHT, 1);
 
@@ -217,6 +217,18 @@ function startGame(mode) {
 
     showScreen('game-screen');
     gameState.isGameRunning = true;
+
+    // Show 2P control hint
+    const hint = document.getElementById('control-hint');
+    if (mode === '2p') {
+        hint.classList.remove('hidden');
+        setTimeout(() => hint.classList.add('hidden'), 5000);
+    } else {
+        hint.classList.add('hidden');
+    }
+
+    // Re-fit canvas after screen switch
+    setTimeout(() => resizeCanvas(), 50);
 
     gameLoopId = requestAnimationFrame(gameLoop);
     gameTimerId = setInterval(updateGameTime, 1000);
@@ -613,15 +625,27 @@ const keys = {};
 window.addEventListener('keydown', (e) => {
     keys[e.key.toLowerCase()] = true;
 
-    if (gameState.isGameRunning && !gameState.isPaused) {
-        if (e.key === 'ArrowUp' || e.key === 'w') {
-            if (gameState.gameMode === '1p') {
-                paddle1.move('up');
-            }
-        } else if (e.key === 'ArrowDown' || e.key === 's') {
-            if (gameState.gameMode === '1p') {
-                paddle1.move('down');
-            }
+    if (!gameState.isGameRunning || gameState.isPaused) return;
+
+    if (gameState.gameMode === '1p') {
+        // 1P: W/S or ArrowUp/ArrowDown → paddle1
+        if (e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W') {
+            paddle1.move('up');
+        } else if (e.key === 'ArrowDown' || e.key === 's' || e.key === 'S') {
+            paddle1.move('down');
+        }
+    } else {
+        // 2P: W/S → paddle1, ArrowUp/ArrowDown → paddle2
+        if (e.key === 'w' || e.key === 'W') {
+            paddle1.move('up');
+        } else if (e.key === 's' || e.key === 'S') {
+            paddle1.move('down');
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            paddle2.move('up');
+        } else if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            paddle2.move('down');
         }
     }
 });
@@ -629,11 +653,19 @@ window.addEventListener('keydown', (e) => {
 window.addEventListener('keyup', (e) => {
     keys[e.key.toLowerCase()] = false;
 
-    if (gameState.isGameRunning && !gameState.isPaused) {
-        if ((e.key === 'ArrowUp' || e.key === 'w') && gameState.gameMode === '1p') {
+    if (!gameState.isGameRunning || gameState.isPaused) return;
+
+    if (gameState.gameMode === '1p') {
+        if (e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W' ||
+            e.key === 'ArrowDown' || e.key === 's' || e.key === 'S') {
             paddle1.move(null);
-        } else if ((e.key === 'ArrowDown' || e.key === 's') && gameState.gameMode === '1p') {
+        }
+    } else {
+        // 2P: W/S → paddle1, ArrowUp/ArrowDown → paddle2
+        if (e.key === 'w' || e.key === 'W' || e.key === 's' || e.key === 'S') {
             paddle1.move(null);
+        } else if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+            paddle2.move(null);
         }
     }
 });
@@ -665,9 +697,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     canvas.addEventListener('touchmove', (e) => {
         e.preventDefault();
+        if (!gameState.isGameRunning) return;
         const touch = e.touches[0];
         const rect = canvas.getBoundingClientRect();
-        const y = touch.clientY - rect.top;
+        const scaleY = GAME_CONFIG.CANVAS_HEIGHT / rect.height;
+        const y = (touch.clientY - rect.top) * scaleY;
 
         if (gameState.gameMode === '2p') {
             const midX = rect.width / 2;
@@ -686,12 +720,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     }, false);
 
     canvas.addEventListener('mousemove', (e) => {
-        if (gameState.gameMode === '1p' && gameState.isGameRunning) {
-            const rect = canvas.getBoundingClientRect();
-            const y = e.clientY - rect.top;
+        if (!gameState.isGameRunning) return;
+        const rect = canvas.getBoundingClientRect();
+        const scaleY = GAME_CONFIG.CANVAS_HEIGHT / rect.height;
+        const y = (e.clientY - rect.top) * scaleY;
+
+        if (gameState.gameMode === '1p') {
             paddle1.y = y - paddle1.height / 2;
             paddle1.y = Math.max(0, Math.min(paddle1.y, GAME_CONFIG.CANVAS_HEIGHT - paddle1.height));
         }
+        // 2P mouse: not supported (use keyboard W/S + ArrowUp/Down)
     }, false);
 
     // Menu buttons
