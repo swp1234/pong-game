@@ -3,6 +3,21 @@
  * Classic Arcade Game with AI & 2P Multiplayer
  */
 
+// Theme toggle functionality
+const themeToggle = document.getElementById('theme-toggle');
+if (themeToggle) {
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    themeToggle.textContent = savedTheme === 'light' ? '🌙' : '☀️';
+    themeToggle.addEventListener('click', () => {
+        const current = document.documentElement.getAttribute('data-theme');
+        const next = current === 'light' ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+        themeToggle.textContent = next === 'light' ? '🌙' : '☀️';
+    });
+}
+
 // ====================================
 // GAME CONFIGURATION
 // ====================================
@@ -675,6 +690,7 @@ window.addEventListener('keyup', (e) => {
 // ====================================
 
 document.addEventListener('DOMContentLoaded', async () => {
+  try {
     // Initialize i18n first, but don't let it block the game
     try {
         if (typeof i18n !== 'undefined' && i18n.init) {
@@ -860,6 +876,15 @@ document.addEventListener('DOMContentLoaded', async () => {
             'page_location': window.location.href
         });
     }
+  } catch(e) {
+    console.error('Init error:', e);
+  } finally {
+    const loader = document.getElementById('app-loader');
+    if (loader) {
+        loader.classList.add('hidden');
+        setTimeout(() => loader.remove(), 300);
+    }
+  }
 });
 
 // Track game events
