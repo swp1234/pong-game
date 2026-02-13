@@ -2,6 +2,23 @@
    PONG GAME - GLOBAL STYLES
    ==================================== */
 
+/* Skip link for accessibility */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: var(--primary, #e67e22);
+    color: #fff;
+    padding: 8px 16px;
+    z-index: 10000;
+    transition: top 0.2s;
+    font-size: 14px;
+    border-radius: 0 0 4px 0;
+}
+.skip-link:focus {
+    top: 0;
+}
+
 :root {
     color-scheme: dark;
     --primary-color: #e67e22;
@@ -1044,3 +1061,12 @@ input[type="range"]:focus-visible {
 }
 
 /* Dark mode is always active (dark-first design) */
+
+/* Accessibility: reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
