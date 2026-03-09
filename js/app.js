@@ -670,6 +670,22 @@ function showGameOverScreen() {
     playSound('gameOver');
     if (typeof Haptic !== 'undefined') Haptic.heavy();
     showScreen('gameover-screen');
+
+    // Rewarded ad — watch ad for 2x score
+    if (typeof GameAds !== 'undefined') {
+        GameAds.injectRewardButton({
+            container: '#gameover-screen',
+            label: 'Watch Ad for 2x Score',
+            onReward: () => {
+                gameState.score.p1 *= 2;
+                document.getElementById('final-score').textContent = `${gameState.score.p1} - ${gameState.score.p2}`;
+                const prevBest = parseInt(localStorage.getItem('pongBestScore') || '0', 10);
+                if (gameState.score.p1 > prevBest) {
+                    localStorage.setItem('pongBestScore', gameState.score.p1);
+                }
+            }
+        });
+    }
 }
 
 function loadStats() {
@@ -921,11 +937,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Game over buttons
     document.getElementById('btn-replay').addEventListener('click', () => {
+        if (typeof GameAds !== 'undefined') GameAds.removeRewardButton('#gameover-screen');
         const mode = gameState.gameMode;
         startGame(mode);
     });
 
     document.getElementById('btn-menu-final').addEventListener('click', () => {
+        if (typeof GameAds !== 'undefined') GameAds.removeRewardButton('#gameover-screen');
         showScreen('menu-screen');
     });
 
