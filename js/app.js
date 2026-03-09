@@ -218,6 +218,20 @@ let paddle2 = new Paddle(GAME_CONFIG.CANVAS_WIDTH - GAME_CONFIG.CANVAS_MARGIN - 
 let gameLoopId = null;
 let gameTimerId = null;
 
+// Screen shake & floating text
+let shakeAmount = 0;
+let shakeFrames = 0;
+const floatingTexts = [];
+
+function triggerShake(intensity = 4, frames = 6) {
+    shakeAmount = intensity;
+    shakeFrames = frames;
+}
+
+function addFloatingText(text, x, y, color = '#e67e22', size = 24) {
+    floatingTexts.push({ text, x, y, color, size, alpha: 1, vy: -2, life: 60 });
+}
+
 function startGame(mode) {
     gameState.gameMode = mode;
     gameState.score = { p1: 0, p2: 0 };
@@ -274,12 +288,16 @@ function gameLoop() {
         gameState.ballHits = 0;
         playSound('score');
         createParticles(ball.x, ball.y);
+        triggerShake(6, 10);
+        addFloatingText(`+1`, GAME_CONFIG.CANVAS_WIDTH * 0.75, GAME_CONFIG.CANVAS_HEIGHT / 2, '#2ecc71', 36);
         ball.reset();
     } else if (ball.x > GAME_CONFIG.CANVAS_WIDTH) {
         gameState.score.p1++;
         gameState.ballHits = 0;
         playSound('score');
         createParticles(ball.x, ball.y);
+        triggerShake(6, 10);
+        addFloatingText(`+1`, GAME_CONFIG.CANVAS_WIDTH * 0.25, GAME_CONFIG.CANVAS_HEIGHT / 2, '#2ecc71', 36);
         ball.reset();
     }
 
@@ -319,6 +337,10 @@ function handlePaddleCollision() {
             gameState.ballHits++;
             playSound('paddleHit');
             createParticles(ball.x, ball.y);
+            triggerShake(3, 4);
+            if (gameState.ballHits > 0 && gameState.ballHits % 5 === 0) {
+                addFloatingText(`${gameState.ballHits} RALLY!`, GAME_CONFIG.CANVAS_WIDTH / 2, GAME_CONFIG.CANVAS_HEIGHT / 2 - 40, '#f39c12', 28);
+            }
         }
     }
 
@@ -342,6 +364,10 @@ function handlePaddleCollision() {
             gameState.ballHits++;
             playSound('paddleHit');
             createParticles(ball.x, ball.y);
+            triggerShake(3, 4);
+            if (gameState.ballHits > 0 && gameState.ballHits % 5 === 0) {
+                addFloatingText(`${gameState.ballHits} RALLY!`, GAME_CONFIG.CANVAS_WIDTH / 2, GAME_CONFIG.CANVAS_HEIGHT / 2 - 40, '#f39c12', 28);
+            }
         }
     }
 }
@@ -388,6 +414,16 @@ function draw() {
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, GAME_CONFIG.CANVAS_WIDTH, GAME_CONFIG.CANVAS_HEIGHT);
 
+    // Screen shake
+    ctx.save();
+    if (shakeFrames > 0) {
+        const dx = (Math.random() - 0.5) * shakeAmount * 2;
+        const dy = (Math.random() - 0.5) * shakeAmount * 2;
+        ctx.translate(dx, dy);
+        shakeFrames--;
+        if (shakeFrames <= 0) shakeAmount = 0;
+    }
+
     // Center dashed line
     ctx.strokeStyle = 'rgba(230, 126, 34, 0.2)';
     ctx.lineWidth = 2;
@@ -407,6 +443,24 @@ function draw() {
     paddle1.draw();
     paddle2.draw();
     ball.draw();
+
+    // Floating texts
+    for (let i = floatingTexts.length - 1; i >= 0; i--) {
+        const ft = floatingTexts[i];
+        ctx.save();
+        ctx.globalAlpha = ft.alpha;
+        ctx.fillStyle = ft.color;
+        ctx.font = `bold ${ft.size}px sans-serif`;
+        ctx.textAlign = 'center';
+        ctx.fillText(ft.text, ft.x, ft.y);
+        ctx.restore();
+        ft.y += ft.vy;
+        ft.alpha -= 1 / ft.life;
+        ft.life--;
+        if (ft.life <= 0) floatingTexts.splice(i, 1);
+    }
+
+    ctx.restore();
 }
 
 function updateGameTime() {
