@@ -287,6 +287,7 @@ function gameLoop() {
         gameState.score.p2++;
         gameState.ballHits = 0;
         playSound('score');
+        if (typeof Haptic !== 'undefined') Haptic.medium();
         createParticles(ball.x, ball.y);
         triggerShake(6, 10);
         addFloatingText(`+1`, GAME_CONFIG.CANVAS_WIDTH * 0.75, GAME_CONFIG.CANVAS_HEIGHT / 2, '#2ecc71', 36);
@@ -295,6 +296,7 @@ function gameLoop() {
         gameState.score.p1++;
         gameState.ballHits = 0;
         playSound('score');
+        if (typeof Haptic !== 'undefined') Haptic.medium();
         createParticles(ball.x, ball.y);
         triggerShake(6, 10);
         addFloatingText(`+1`, GAME_CONFIG.CANVAS_WIDTH * 0.25, GAME_CONFIG.CANVAS_HEIGHT / 2, '#2ecc71', 36);
@@ -336,6 +338,7 @@ function handlePaddleCollision() {
 
             gameState.ballHits++;
             playSound('paddleHit');
+            if (typeof Haptic !== 'undefined') Haptic.light();
             createParticles(ball.x, ball.y);
             triggerShake(3, 4);
             if (gameState.ballHits > 0 && gameState.ballHits % 5 === 0) {
@@ -363,6 +366,7 @@ function handlePaddleCollision() {
 
             gameState.ballHits++;
             playSound('paddleHit');
+            if (typeof Haptic !== 'undefined') Haptic.light();
             createParticles(ball.x, ball.y);
             triggerShake(3, 4);
             if (gameState.ballHits > 0 && gameState.ballHits % 5 === 0) {
@@ -653,6 +657,7 @@ function showGameOverScreen() {
     document.getElementById('final-score').textContent = `${gameState.score.p1} - ${gameState.score.p2}`;
 
     playSound('gameOver');
+    if (typeof Haptic !== 'undefined') Haptic.heavy();
     showScreen('gameover-screen');
 }
 
