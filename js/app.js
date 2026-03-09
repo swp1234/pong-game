@@ -516,6 +516,13 @@ function endGame() {
     // Report to daily streak
     if (typeof DailyStreak !== 'undefined') DailyStreak.report(playerScore);
 
+    GameAchievements.report({
+      bestScore: parseInt(localStorage.getItem('pongBestScore')) || 0,
+      totalWins: gameState.stats.totalWins,
+      totalGames: gameState.stats.totalGames,
+      bestStreak: gameState.stats.bestStreak
+    });
+
     // Show game over screen
     showGameOverScreen();
 }
@@ -775,6 +782,20 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Daily streak retention
     if (typeof DailyStreak !== 'undefined') DailyStreak.init({ gameId: 'pong-game', bestScoreKey: 'pongBestScore', minTarget: 3 });
+
+    GameAchievements.init({
+      gameId: 'pong-game',
+      defs: [
+        { id: 'score_5', stat: 'bestScore', target: 5, icon: '\uD83C\uDFD3', name: 'Rally Starter' },
+        { id: 'score_10', stat: 'bestScore', target: 10, icon: '\uD83C\uDFD3', name: 'Rally King' },
+        { id: 'wins_5', stat: 'totalWins', target: 5, icon: '\uD83C\uDFC6', name: 'Winner' },
+        { id: 'wins_20', stat: 'totalWins', target: 20, icon: '\uD83C\uDFC6', name: 'Champion' },
+        { id: 'games_10', stat: 'totalGames', target: 10, icon: '\uD83C\uDFAE', name: 'Regular' },
+        { id: 'games_50', stat: 'totalGames', target: 50, icon: '\uD83C\uDFAE', name: 'Veteran' },
+        { id: 'streak_3', stat: 'bestStreak', target: 3, icon: '\uD83D\uDD25', name: 'Streak Starter' },
+        { id: 'streak_10', stat: 'bestStreak', target: 10, icon: '\uD83D\uDD25', name: 'Unstoppable' },
+      ]
+    });
 
     // Touch/Mouse handlers for paddles (must be after initCanvas)
     let touchStartY = 0;
