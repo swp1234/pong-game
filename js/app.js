@@ -523,8 +523,12 @@ function endGame() {
       bestStreak: gameState.stats.bestStreak
     });
 
-    // Show game over screen
-    showGameOverScreen();
+    // Show game over screen (with interstitial ad)
+    if (typeof GameAds !== 'undefined') {
+        GameAds.showInterstitial({ onComplete: () => { showGameOverScreen(); } });
+    } else {
+        showGameOverScreen();
+    }
 }
 
 function pauseGame() {
@@ -782,6 +786,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Daily streak retention
     if (typeof DailyStreak !== 'undefined') DailyStreak.init({ gameId: 'pong-game', bestScoreKey: 'pongBestScore', minTarget: 3 });
+    if (typeof GameAds !== 'undefined') GameAds.init();
 
     GameAchievements.init({
       gameId: 'pong-game',
