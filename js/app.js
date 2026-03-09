@@ -502,6 +502,16 @@ function endGame() {
     }
     saveStats();
 
+    // Save best score
+    const playerScore = gameState.score.p1;
+    const prevBest = parseInt(localStorage.getItem('pongBestScore') || '0', 10);
+    if (playerScore > prevBest) {
+        localStorage.setItem('pongBestScore', playerScore);
+    }
+
+    // Report to daily streak
+    if (typeof DailyStreak !== 'undefined') DailyStreak.report(playerScore);
+
     // Show game over screen
     showGameOverScreen();
 }
@@ -757,6 +767,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     initCanvas();
     loadStats();
     updateStatsUI();
+
+    // Daily streak retention
+    if (typeof DailyStreak !== 'undefined') DailyStreak.init({ gameId: 'pong-game', bestScoreKey: 'pongBestScore', minTarget: 3 });
 
     // Touch/Mouse handlers for paddles (must be after initCanvas)
     let touchStartY = 0;
