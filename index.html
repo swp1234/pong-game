@@ -313,6 +313,17 @@
         }
     </script>
     <div id="share-float" style="position:fixed;bottom:80px;right:16px;z-index:99"><button onclick="(async()=>{const u=location.href,t=document.title;if(typeof gtag==='function')gtag('event','share',{method:navigator.share?'native':'clipboard',app_name:'pong-game'});if(navigator.share){try{await navigator.share({title:t,url:u})}catch(e){}}else{await navigator.clipboard.writeText(u);this.textContent='✅';setTimeout(()=>this.textContent='📤',1500)}})()" style="width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:#fff;font-size:20px;cursor:pointer;backdrop-filter:blur(8px)">📤</button></div>
+        <!-- Related Games (SEO Internal Links) -->
+    <section class="related-games" style="margin:20px auto;padding:16px;max-width:480px;background:rgba(255,255,255,0.05);border-radius:12px;">
+      <p style="font-size:13px;color:#aaa;margin:0 0 8px 0;font-weight:600;">More Free Games</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <a href="/snake-game/" style="padding:6px 12px;background:rgba(255,255,255,0.08);border-radius:8px;text-decoration:none;color:inherit;font-size:13px;">🐍 Snake Game</a>
+        <a href="/brick-breaker/" style="padding:6px 12px;background:rgba(255,255,255,0.08);border-radius:8px;text-decoration:none;color:inherit;font-size:13px;">🧱 Brick Breaker</a>
+        <a href="/flappy-bird/" style="padding:6px 12px;background:rgba(255,255,255,0.08);border-radius:8px;text-decoration:none;color:inherit;font-size:13px;">🐦 Flappy Bird</a>
+        <a href="/reaction-test/" style="padding:6px 12px;background:rgba(255,255,255,0.08);border-radius:8px;text-decoration:none;color:inherit;font-size:13px;">⚡ Reaction Test</a>
+        <a href="/stack-tower/" style="padding:6px 12px;background:rgba(255,255,255,0.08);border-radius:8px;text-decoration:none;color:inherit;font-size:13px;">🏗️ Stack Tower</a>
+      </div>
+    </section>
     <script src="/portal/js/cross-promo.js" defer></script>
 </body>
 </html>
