@@ -995,6 +995,22 @@ document.addEventListener('DOMContentLoaded', async () => {
         showScreen('menu-screen');
     });
 
+    // Share score button
+    document.getElementById('share-score-btn').addEventListener('click', () => {
+        const score = gameState.score.p1;
+        const text = `I scored ${score} in Pong! Can you beat me? \uD83C\uDFD3`;
+        const url = 'https://dopabrain.com/pong-game/';
+        if (navigator.share) {
+            navigator.share({ title: 'Pong', text, url }).catch(() => {});
+        } else {
+            navigator.clipboard.writeText(text + '\n' + url).then(() => {
+                const btn = document.getElementById('share-score-btn');
+                if (btn) { const orig = btn.textContent; btn.textContent = 'Copied!'; setTimeout(() => btn.textContent = orig, 1500); }
+            }).catch(() => {});
+        }
+        if (typeof gtag === 'function') gtag('event', 'share', { method: navigator.share ? 'native' : 'clipboard', app_name: 'pong-game' });
+    });
+
     // Language selector
     document.getElementById('lang-toggle').addEventListener('click', function () {
         const menu = document.getElementById('lang-menu');
