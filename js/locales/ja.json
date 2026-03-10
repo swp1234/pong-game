@@ -47,7 +47,8 @@
     "youWin": "あなたが勝ちました！",
     "youLose": "あなたは負けました。",
     "tieGame": "同点です！",
-    "controlHint": "P1: W/Sキー | P2: ↑/↓キー"
+    "controlHint": "P1: W/Sキー | P2: ↑/↓キー",
+    "shareScore": "スコア共有"
   },
   "help": {
     "title": "遊び方",

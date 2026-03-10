@@ -47,7 +47,8 @@
     "youWin": "Anda Menang!",
     "youLose": "Anda Kalah!",
     "tieGame": "Seri!",
-    "controlHint": "P1: tombol W/S | P2: panah ↑/↓"
+    "controlHint": "P1: tombol W/S | P2: panah ↑/↓",
+    "shareScore": "Bagikan Skor"
   },
   "help": {
     "title": "Cara bermain",

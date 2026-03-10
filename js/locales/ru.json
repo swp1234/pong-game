@@ -47,7 +47,8 @@
     "youWin": "Вы выиграли!",
     "youLose": "Вы проиграли!",
     "tieGame": "Ничья!",
-    "controlHint": "P1: клавиши W/S | P2: стрелки ↑/↓"
+    "controlHint": "P1: клавиши W/S | P2: стрелки ↑/↓",
+    "shareScore": "Поделиться"
   },
   "help": {
     "title": "Как играть",

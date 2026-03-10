@@ -47,7 +47,8 @@
     "youWin": "आप जीत गए!",
     "youLose": "आप हार गए!",
     "tieGame": "ड्रॉ!",
-    "controlHint": "P1: W/S कुंजी | P2: ऊपर/नीचे तीर"
+    "controlHint": "P1: W/S कुंजी | P2: ऊपर/नीचे तीर",
+    "shareScore": "स्कोर शेयर"
   },
   "help": {
     "title": "कैसे खेलें",

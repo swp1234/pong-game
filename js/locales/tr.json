@@ -47,7 +47,8 @@
     "youWin": "Kazandınız!",
     "youLose": "Kaybettiniz!",
     "tieGame": "Berabere!",
-    "controlHint": "P1: W/S tuşları | P2: ok tuşları ↑/↓"
+    "controlHint": "P1: W/S tuşları | P2: ok tuşları ↑/↓",
+    "shareScore": "Puanı Paylaş"
   },
   "help": {
     "title": "Nasıl oynanır",

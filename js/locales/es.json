@@ -47,7 +47,8 @@
     "youWin": "¡Ganaste!",
     "youLose": "¡Perdiste!",
     "tieGame": "¡Empate!",
-    "controlHint": "P1: teclas W/S | P2: flechas ↑/↓"
+    "controlHint": "P1: teclas W/S | P2: flechas ↑/↓",
+    "shareScore": "Compartir"
   },
   "help": {
     "title": "Cómo jugar",

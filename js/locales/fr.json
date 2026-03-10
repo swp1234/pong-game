@@ -47,7 +47,8 @@
     "youWin": "Vous avez gagné!",
     "youLose": "Vous avez perdu!",
     "tieGame": "Égalité!",
-    "controlHint": "P1: touches W/S | P2: flèches ↑/↓"
+    "controlHint": "P1: touches W/S | P2: flèches ↑/↓",
+    "shareScore": "Partager"
   },
   "help": {
     "title": "Comment jouer",
