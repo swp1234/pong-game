@@ -3,7 +3,7 @@
  * Enables offline functionality and caching
  */
 
-const CACHE_NAME = 'pong-game-v4';
+const CACHE_NAME = 'pong-game-v5';
 const urlsToCache = [
     '/',
     '/index.html',
