@@ -135,6 +135,7 @@ function resizeCanvas() {
 
 class Ball {
     constructor() {
+        this.trail = [];
         this.reset();
     }
 
@@ -143,9 +144,22 @@ class Ball {
         this.y = GAME_CONFIG.CANVAS_HEIGHT / 2;
         this.vx = (Math.random() > 0.5 ? 1 : -1) * GAME_CONFIG.BALL_SPEED_INIT;
         this.vy = (Math.random() - 0.5) * GAME_CONFIG.BALL_SPEED_INIT;
+        this.trail = [];
+    }
+
+    getBallColor() {
+        const hits = gameState.ballHits;
+        if (hits >= 20) return '#e74c3c'; // red hot
+        if (hits >= 15) return '#f39c12'; // orange
+        if (hits >= 10) return '#f1c40f'; // yellow
+        return '#e67e22'; // default orange
     }
 
     update() {
+        // Trail
+        this.trail.push({ x: this.x, y: this.y });
+        if (this.trail.length > (gameState.ballHits >= 10 ? 12 : 6)) this.trail.shift();
+
         this.x += this.vx;
         this.y += this.vy;
 
@@ -159,8 +173,22 @@ class Ball {
 
     draw() {
         const size = GAME_CONFIG.BALL_SIZE;
+        const ballColor = this.getBallColor();
+
+        // Draw trail
+        for (let i = 0; i < this.trail.length; i++) {
+            const t = this.trail[i];
+            const alpha = (i / this.trail.length) * 0.4;
+            const trailSize = size * (0.3 + (i / this.trail.length) * 0.7);
+            ctx.fillStyle = ballColor;
+            ctx.globalAlpha = alpha;
+            ctx.beginPath();
+            ctx.arc(t.x, t.y, trailSize / 2, 0, Math.PI * 2);
+            ctx.fill();
+        }
+        ctx.globalAlpha = 1;
+
         if (assets.ball.loaded) {
-            // Draw ball sprite (scaled from 64x64 to ball size, with extra glow margin)
             const drawSize = size * 3;
             ctx.drawImage(
                 assets.ball.img,
@@ -170,10 +198,9 @@ class Ball {
                 drawSize
             );
         } else {
-            // Fallback: original glowing ball
             const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, size / 2);
-            gradient.addColorStop(0, 'rgba(230, 126, 34, 1)');
-            gradient.addColorStop(1, 'rgba(230, 126, 34, 0.3)');
+            gradient.addColorStop(0, ballColor);
+            gradient.addColorStop(1, ballColor.replace(')', ',0.3)').replace('rgb', 'rgba'));
 
             ctx.fillStyle = gradient;
             ctx.fillRect(
@@ -183,7 +210,8 @@ class Ball {
                 size
             );
 
-            ctx.strokeStyle = 'rgba(230, 126, 34, 0.5)';
+            ctx.strokeStyle = ballColor;
+            ctx.globalAlpha = 0.5;
             ctx.lineWidth = 2;
             ctx.strokeRect(
                 this.x - size / 2,
@@ -191,6 +219,20 @@ class Ball {
                 size,
                 size
             );
+            ctx.globalAlpha = 1;
+        }
+
+        // Glow effect at high rallies
+        if (gameState.ballHits >= 10) {
+            ctx.shadowColor = ballColor;
+            ctx.shadowBlur = 8 + gameState.ballHits * 0.5;
+            ctx.fillStyle = ballColor;
+            ctx.globalAlpha = 0.3;
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, size, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.shadowBlur = 0;
+            ctx.globalAlpha = 1;
         }
     }
 }
