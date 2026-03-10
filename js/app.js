@@ -516,7 +516,7 @@ function endGame() {
     // Report to daily streak
     if (typeof DailyStreak !== 'undefined') DailyStreak.report(playerScore);
 
-    GameAchievements.report({
+    if (typeof GameAchievements !== 'undefined') GameAchievements.report({
       bestScore: parseInt(localStorage.getItem('pongBestScore')) || 0,
       totalWins: gameState.stats.totalWins,
       totalGames: gameState.stats.totalGames,
@@ -804,7 +804,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (typeof DailyStreak !== 'undefined') DailyStreak.init({ gameId: 'pong-game', bestScoreKey: 'pongBestScore', minTarget: 3 });
     if (typeof GameAds !== 'undefined') GameAds.init();
 
-    GameAchievements.init({
+    if (typeof GameAchievements !== 'undefined') GameAchievements.init({
       gameId: 'pong-game',
       defs: [
         { id: 'score_5', stat: 'bestScore', target: 5, icon: '\uD83C\uDFD3', name: 'Rally Starter' },
