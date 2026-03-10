@@ -45,6 +45,30 @@ const GAME_CONFIG = {
 };
 
 // ====================================
+// ASSET PRELOADING
+// ====================================
+
+const assets = {
+    bg: { img: new Image(), loaded: false },
+    paddle: { img: new Image(), loaded: false },
+    ball: { img: new Image(), loaded: false }
+};
+
+(function preloadAssets() {
+    assets.bg.img.onload = () => { assets.bg.loaded = true; };
+    assets.bg.img.onerror = () => { assets.bg.loaded = false; };
+    assets.bg.img.src = 'assets/bg-opt.jpg';
+
+    assets.paddle.img.onload = () => { assets.paddle.loaded = true; };
+    assets.paddle.img.onerror = () => { assets.paddle.loaded = false; };
+    assets.paddle.img.src = 'assets/paddle-opt.png';
+
+    assets.ball.img.onload = () => { assets.ball.loaded = true; };
+    assets.ball.img.onerror = () => { assets.ball.loaded = false; };
+    assets.ball.img.src = 'assets/ball-opt.png';
+})();
+
+// ====================================
 // GAME STATE
 // ====================================
 
@@ -134,28 +158,40 @@ class Ball {
     }
 
     draw() {
-        // Glowing ball
-        const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, GAME_CONFIG.BALL_SIZE / 2);
-        gradient.addColorStop(0, 'rgba(230, 126, 34, 1)');
-        gradient.addColorStop(1, 'rgba(230, 126, 34, 0.3)');
+        const size = GAME_CONFIG.BALL_SIZE;
+        if (assets.ball.loaded) {
+            // Draw ball sprite (scaled from 64x64 to ball size, with extra glow margin)
+            const drawSize = size * 3;
+            ctx.drawImage(
+                assets.ball.img,
+                this.x - drawSize / 2,
+                this.y - drawSize / 2,
+                drawSize,
+                drawSize
+            );
+        } else {
+            // Fallback: original glowing ball
+            const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, size / 2);
+            gradient.addColorStop(0, 'rgba(230, 126, 34, 1)');
+            gradient.addColorStop(1, 'rgba(230, 126, 34, 0.3)');
 
-        ctx.fillStyle = gradient;
-        ctx.fillRect(
-            this.x - GAME_CONFIG.BALL_SIZE / 2,
-            this.y - GAME_CONFIG.BALL_SIZE / 2,
-            GAME_CONFIG.BALL_SIZE,
-            GAME_CONFIG.BALL_SIZE
-        );
+            ctx.fillStyle = gradient;
+            ctx.fillRect(
+                this.x - size / 2,
+                this.y - size / 2,
+                size,
+                size
+            );
 
-        // Glow effect
-        ctx.strokeStyle = 'rgba(230, 126, 34, 0.5)';
-        ctx.lineWidth = 2;
-        ctx.strokeRect(
-            this.x - GAME_CONFIG.BALL_SIZE / 2,
-            this.y - GAME_CONFIG.BALL_SIZE / 2,
-            GAME_CONFIG.BALL_SIZE,
-            GAME_CONFIG.BALL_SIZE
-        );
+            ctx.strokeStyle = 'rgba(230, 126, 34, 0.5)';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(
+                this.x - size / 2,
+                this.y - size / 2,
+                size,
+                size
+            );
+        }
     }
 }
 
@@ -186,17 +222,25 @@ class Paddle {
     }
 
     draw() {
-        // Glowing paddle
-        ctx.fillStyle = 'rgba(230, 126, 34, 0.8)';
-        ctx.fillRect(this.x, this.y, this.width, this.height);
+        if (assets.paddle.loaded) {
+            // Draw paddle sprite (32x128 source, scaled to paddle dimensions)
+            ctx.drawImage(
+                assets.paddle.img,
+                this.x, this.y,
+                this.width, this.height
+            );
+        } else {
+            // Fallback: original glowing paddle
+            ctx.fillStyle = 'rgba(230, 126, 34, 0.8)';
+            ctx.fillRect(this.x, this.y, this.width, this.height);
 
-        // Glow effect
-        ctx.shadowColor = 'rgba(230, 126, 34, 0.8)';
-        ctx.shadowBlur = 15;
-        ctx.strokeStyle = 'rgba(230, 126, 34, 1)';
-        ctx.lineWidth = 2;
-        ctx.strokeRect(this.x, this.y, this.width, this.height);
-        ctx.shadowBlur = 0;
+            ctx.shadowColor = 'rgba(230, 126, 34, 0.8)';
+            ctx.shadowBlur = 15;
+            ctx.strokeStyle = 'rgba(230, 126, 34, 1)';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(this.x, this.y, this.width, this.height);
+            ctx.shadowBlur = 0;
+        }
     }
 
     collidesWith(ball) {
@@ -411,12 +455,16 @@ function updateAI() {
 }
 
 function draw() {
-    // Clear canvas with gradient
-    const gradient = ctx.createLinearGradient(0, 0, GAME_CONFIG.CANVAS_WIDTH, GAME_CONFIG.CANVAS_HEIGHT);
-    gradient.addColorStop(0, 'rgba(15, 15, 35, 1)');
-    gradient.addColorStop(1, 'rgba(10, 10, 21, 1)');
-    ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, GAME_CONFIG.CANVAS_WIDTH, GAME_CONFIG.CANVAS_HEIGHT);
+    // Clear canvas with background image or gradient fallback
+    if (assets.bg.loaded) {
+        ctx.drawImage(assets.bg.img, 0, 0, GAME_CONFIG.CANVAS_WIDTH, GAME_CONFIG.CANVAS_HEIGHT);
+    } else {
+        const gradient = ctx.createLinearGradient(0, 0, GAME_CONFIG.CANVAS_WIDTH, GAME_CONFIG.CANVAS_HEIGHT);
+        gradient.addColorStop(0, 'rgba(15, 15, 35, 1)');
+        gradient.addColorStop(1, 'rgba(10, 10, 21, 1)');
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, GAME_CONFIG.CANVAS_WIDTH, GAME_CONFIG.CANVAS_HEIGHT);
+    }
 
     // Screen shake
     ctx.save();
