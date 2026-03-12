@@ -60,5 +60,13 @@
     "mouseControl": "Movimiento del ratón",
     "touchControl": "Tocar y arrastrar",
     "touch2p": "Mitad izquierda = P1 / Mitad derecha = P2"
+  },
+  "error": {
+    "storage": "Algunas funciones pueden estar limitadas en modo privado.",
+    "data": "Error al cargar datos. Actualice la página.",
+    "canvas": "Problema de renderizado. Inténtelo de nuevo.",
+    "audio": "Audio no disponible. Puede continuar.",
+    "network": "Verifique su conexión e inténtelo de nuevo.",
+    "general": "Algo salió mal. Actualice o inténtelo de nuevo."
   }
 }

@@ -60,5 +60,13 @@
     "mouseControl": "Fare hareketi",
     "touchControl": "Dokun ve sürükle",
     "touch2p": "Sol yarı = P1 / Sağ yarı = P2"
+  },
+  "error": {
+    "storage": "Gizli modda bazı özellikler sınırlı olabilir.",
+    "data": "Veri yükleme hatası. Lütfen sayfayı yenileyin.",
+    "canvas": "Grafik oluşturma sorunu. Lütfen tekrar deneyin.",
+    "audio": "Ses kullanılamıyor. Devam edebilirsiniz.",
+    "network": "Bağlantınızı kontrol edip tekrar deneyin.",
+    "general": "Bir şeyler ters gitti. Yenileyip tekrar deneyin."
   }
 }
