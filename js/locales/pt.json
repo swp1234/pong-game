@@ -62,7 +62,7 @@
     "touch2p": "Metade esquerda = P1 / Metade direita = P2"
   },
   "streak": {
-    "label": "SEQU\u00CANCIA",
+    "label": "SEQUÊNCIA",
     "multiplier": "Multiplicador"
   },
   "error": {
@@ -72,5 +72,12 @@
     "audio": "Áudio indisponível. Você pode continuar.",
     "network": "Verifique sua conexão e tente novamente.",
     "general": "Algo deu errado. Atualize ou tente novamente."
+  },
+  "related": {
+    "title": "Mais para explorar",
+    "brickBreaker": "Quebra-tijolos",
+    "snakeGame": "Jogo da cobra",
+    "flappyBird": "Flappy Bird",
+    "roadShooter": "Road Shooter"
   }
 }

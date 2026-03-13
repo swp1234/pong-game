@@ -62,8 +62,8 @@
     "touch2p": "左半分 = P1 / 右半分 = P2"
   },
   "streak": {
-    "label": "\u30B9\u30C8\u30EA\u30FC\u30AF",
-    "multiplier": "\u500D\u7387"
+    "label": "ストリーク",
+    "multiplier": "倍率"
   },
   "error": {
     "storage": "プライベートモードでは一部機能が制限されます。",
@@ -72,5 +72,12 @@
     "audio": "音声が利用できません。続行できます。",
     "network": "接続を確認して再試行してください。",
     "general": "問題が発生しました。更新するか再試行してください。"
+  },
+  "related": {
+    "title": "もっと探す",
+    "brickBreaker": "ブロック崩し",
+    "snakeGame": "スネークゲーム",
+    "flappyBird": "フラッピーバード",
+    "roadShooter": "ロードシューター"
   }
 }

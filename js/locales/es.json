@@ -72,5 +72,12 @@
     "audio": "Audio no disponible. Puede continuar.",
     "network": "Verifique su conexión e inténtelo de nuevo.",
     "general": "Algo salió mal. Actualice o inténtelo de nuevo."
+  },
+  "related": {
+    "title": "Más por explorar",
+    "brickBreaker": "Rompe ladrillos",
+    "snakeGame": "Juego de la serpiente",
+    "flappyBird": "Flappy Bird",
+    "roadShooter": "Road Shooter"
   }
 }

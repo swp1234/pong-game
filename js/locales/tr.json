@@ -62,8 +62,8 @@
     "touch2p": "Sol yarı = P1 / Sağ yarı = P2"
   },
   "streak": {
-    "label": "SER\u0130",
-    "multiplier": "\u00C7arpan"
+    "label": "SERİ",
+    "multiplier": "Çarpan"
   },
   "error": {
     "storage": "Gizli modda bazı özellikler sınırlı olabilir.",
@@ -72,5 +72,12 @@
     "audio": "Ses kullanılamıyor. Devam edebilirsiniz.",
     "network": "Bağlantınızı kontrol edip tekrar deneyin.",
     "general": "Bir şeyler ters gitti. Yenileyip tekrar deneyin."
+  },
+  "related": {
+    "title": "Daha fazla keşfet",
+    "brickBreaker": "Tuğla Kırıcı",
+    "snakeGame": "Yılan Oyunu",
+    "flappyBird": "Flappy Bird",
+    "roadShooter": "Road Shooter"
   }
 }

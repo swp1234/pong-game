@@ -62,7 +62,7 @@
     "touch2p": "Moitié gauche = P1 / Moitié droite = P2"
   },
   "streak": {
-    "label": "S\u00C9RIE",
+    "label": "SÉRIE",
     "multiplier": "Multiplicateur"
   },
   "error": {
@@ -72,5 +72,12 @@
     "audio": "Audio indisponible. Vous pouvez continuer.",
     "network": "Vérifiez votre connexion et réessayez.",
     "general": "Un problème est survenu. Rafraîchissez ou réessayez."
+  },
+  "related": {
+    "title": "Plus à explorer",
+    "brickBreaker": "Casse-briques",
+    "snakeGame": "Jeu du serpent",
+    "flappyBird": "Flappy Bird",
+    "roadShooter": "Road Shooter"
   }
 }
