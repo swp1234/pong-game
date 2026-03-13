@@ -97,7 +97,12 @@ const gameState = {
         currentStreak: 0,
         totalGames: 0,
         totalWins: 0
-    }
+    },
+
+    // Streak multiplier
+    p1ReturnStreak: 0,
+    p2ReturnStreak: 0,
+    streakFlashTimer: 0
 };
 
 // ====================================
@@ -318,6 +323,48 @@ function addFloatingText(text, x, y, color = '#e67e22', size = 24) {
     floatingTexts.push({ text, x, y, color, size, alpha: 1, vy: -2, life: 60 });
 }
 
+// Streak multiplier helpers
+function getStreakMultiplier(streak) {
+    if (streak >= 15) return 4;
+    if (streak >= 10) return 3;
+    if (streak >= 5) return 2;
+    if (streak >= 3) return 1.5;
+    return 1;
+}
+
+function updateStreakUI() {
+    const badge = document.getElementById('streak-badge');
+    if (!badge) return;
+
+    // In 1P mode show p1 streak; in 2P show whichever is active
+    const streak = gameState.gameMode === '2p'
+        ? Math.max(gameState.p1ReturnStreak, gameState.p2ReturnStreak)
+        : gameState.p1ReturnStreak;
+    const multiplier = getStreakMultiplier(streak);
+
+    if (streak >= 3) {
+        const streakLabel = (typeof i18n !== 'undefined' && i18n.t) ? i18n.t('streak.label') : 'STREAK';
+        badge.textContent = `\uD83D\uDD25 ${streak} ${streakLabel} (${multiplier}x)`;
+        badge.classList.remove('hidden');
+        // Milestone glow classes
+        badge.classList.toggle('streak-mega', streak >= 10);
+        badge.classList.toggle('streak-super', streak >= 5 && streak < 10);
+    } else {
+        badge.classList.add('hidden');
+        badge.classList.remove('streak-mega', 'streak-super');
+    }
+}
+
+function triggerStreakFlash() {
+    const flash = document.getElementById('streak-flash');
+    if (!flash) return;
+    flash.classList.remove('active');
+    // Force reflow
+    void flash.offsetWidth;
+    flash.classList.add('active');
+    setTimeout(() => flash.classList.remove('active'), 400);
+}
+
 function startGame(mode) {
     gameState.gameMode = mode;
     gameState.score = { p1: 0, p2: 0 };
@@ -325,8 +372,12 @@ function startGame(mode) {
     gameState.gameStartTime = Date.now();
     gameState.ballHits = 0;
     gameState.isPaused = false;
+    gameState.p1ReturnStreak = 0;
+    gameState.p2ReturnStreak = 0;
+    gameState.streakFlashTimer = 0;
 
     ball.reset();
+    updateStreakUI();
     paddle1.y = GAME_CONFIG.CANVAS_HEIGHT / 2 - gameState.paddleSize / 2;
     paddle2.y = GAME_CONFIG.CANVAS_HEIGHT / 2 - gameState.paddleSize / 2;
 
@@ -370,22 +421,38 @@ function gameLoop() {
 
     // Collision - Boundaries (score)
     if (ball.x < 0) {
-        gameState.score.p2++;
+        // P2 scores — apply P2 streak multiplier
+        const p2Mult = getStreakMultiplier(gameState.p2ReturnStreak);
+        const p2Points = Math.floor(1 * p2Mult);
+        gameState.score.p2 += p2Points;
         gameState.ballHits = 0;
         playSound('score');
         if (typeof Haptic !== 'undefined') Haptic.medium();
         createParticles(ball.x, ball.y);
         triggerShake(6, 10);
-        addFloatingText(`+1`, GAME_CONFIG.CANVAS_WIDTH * 0.75, GAME_CONFIG.CANVAS_HEIGHT / 2, '#2ecc71', 36);
+        const p2Label = p2Mult > 1 ? `+${p2Points} (${p2Mult}x)` : '+1';
+        addFloatingText(p2Label, GAME_CONFIG.CANVAS_WIDTH * 0.75, GAME_CONFIG.CANVAS_HEIGHT / 2, p2Mult > 1 ? '#fbbf24' : '#2ecc71', p2Mult > 1 ? 42 : 36);
+        // Reset both streaks
+        gameState.p1ReturnStreak = 0;
+        gameState.p2ReturnStreak = 0;
+        updateStreakUI();
         ball.reset();
     } else if (ball.x > GAME_CONFIG.CANVAS_WIDTH) {
-        gameState.score.p1++;
+        // P1 scores — apply P1 streak multiplier
+        const p1Mult = getStreakMultiplier(gameState.p1ReturnStreak);
+        const p1Points = Math.floor(1 * p1Mult);
+        gameState.score.p1 += p1Points;
         gameState.ballHits = 0;
         playSound('score');
         if (typeof Haptic !== 'undefined') Haptic.medium();
         createParticles(ball.x, ball.y);
         triggerShake(6, 10);
-        addFloatingText(`+1`, GAME_CONFIG.CANVAS_WIDTH * 0.25, GAME_CONFIG.CANVAS_HEIGHT / 2, '#2ecc71', 36);
+        const p1Label = p1Mult > 1 ? `+${p1Points} (${p1Mult}x)` : '+1';
+        addFloatingText(p1Label, GAME_CONFIG.CANVAS_WIDTH * 0.25, GAME_CONFIG.CANVAS_HEIGHT / 2, p1Mult > 1 ? '#fbbf24' : '#2ecc71', p1Mult > 1 ? 42 : 36);
+        // Reset both streaks
+        gameState.p1ReturnStreak = 0;
+        gameState.p2ReturnStreak = 0;
+        updateStreakUI();
         ball.reset();
     }
 
@@ -423,12 +490,20 @@ function handlePaddleCollision() {
             }
 
             gameState.ballHits++;
+            gameState.p1ReturnStreak++;
             playSound('paddleHit');
             if (typeof Haptic !== 'undefined') Haptic.light();
             createParticles(ball.x, ball.y);
             triggerShake(3, 4);
+            updateStreakUI();
             if (gameState.ballHits > 0 && gameState.ballHits % 5 === 0) {
                 addFloatingText(`${gameState.ballHits} RALLY!`, GAME_CONFIG.CANVAS_WIDTH / 2, GAME_CONFIG.CANVAS_HEIGHT / 2 - 40, '#f39c12', 28);
+            }
+            // Streak milestone flash
+            if (gameState.p1ReturnStreak === 5 || gameState.p1ReturnStreak === 10 || gameState.p1ReturnStreak === 15) {
+                triggerStreakFlash();
+                const mult = getStreakMultiplier(gameState.p1ReturnStreak);
+                addFloatingText(`${mult}x`, GAME_CONFIG.CANVAS_WIDTH / 4, GAME_CONFIG.CANVAS_HEIGHT / 2, '#fbbf24', 40);
             }
         }
     }
@@ -451,12 +526,20 @@ function handlePaddleCollision() {
             }
 
             gameState.ballHits++;
+            gameState.p2ReturnStreak++;
             playSound('paddleHit');
             if (typeof Haptic !== 'undefined') Haptic.light();
             createParticles(ball.x, ball.y);
             triggerShake(3, 4);
+            updateStreakUI();
             if (gameState.ballHits > 0 && gameState.ballHits % 5 === 0) {
                 addFloatingText(`${gameState.ballHits} RALLY!`, GAME_CONFIG.CANVAS_WIDTH / 2, GAME_CONFIG.CANVAS_HEIGHT / 2 - 40, '#f39c12', 28);
+            }
+            // Streak milestone flash
+            if (gameState.p2ReturnStreak === 5 || gameState.p2ReturnStreak === 10 || gameState.p2ReturnStreak === 15) {
+                triggerStreakFlash();
+                const mult = getStreakMultiplier(gameState.p2ReturnStreak);
+                addFloatingText(`${mult}x`, GAME_CONFIG.CANVAS_WIDTH * 0.75, GAME_CONFIG.CANVAS_HEIGHT / 2, '#fbbf24', 40);
             }
         }
     }

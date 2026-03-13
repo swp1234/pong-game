@@ -61,6 +61,10 @@
     "touchControl": "Dokun ve sürükle",
     "touch2p": "Sol yarı = P1 / Sağ yarı = P2"
   },
+  "streak": {
+    "label": "SER\u0130",
+    "multiplier": "\u00C7arpan"
+  },
   "error": {
     "storage": "Gizli modda bazı özellikler sınırlı olabilir.",
     "data": "Veri yükleme hatası. Lütfen sayfayı yenileyin.",

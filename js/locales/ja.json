@@ -61,6 +61,10 @@
     "touchControl": "タッチ＆ドラッグ",
     "touch2p": "左半分 = P1 / 右半分 = P2"
   },
+  "streak": {
+    "label": "\u30B9\u30C8\u30EA\u30FC\u30AF",
+    "multiplier": "\u500D\u7387"
+  },
   "error": {
     "storage": "プライベートモードでは一部機能が制限されます。",
     "data": "データ読み込みエラー。ページを更新してください。",

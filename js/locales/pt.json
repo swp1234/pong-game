@@ -61,6 +61,10 @@
     "touchControl": "Tocar e arrastar",
     "touch2p": "Metade esquerda = P1 / Metade direita = P2"
   },
+  "streak": {
+    "label": "SEQU\u00CANCIA",
+    "multiplier": "Multiplicador"
+  },
   "error": {
     "storage": "Algumas funções podem ser limitadas no modo privado.",
     "data": "Erro ao carregar dados. Atualize a página.",

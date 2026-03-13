@@ -61,6 +61,10 @@
     "touchControl": "Touch & drag",
     "touch2p": "Left half = P1 / Right half = P2"
   },
+  "streak": {
+    "label": "STREAK",
+    "multiplier": "Multiplier"
+  },
   "error": {
     "storage": "Some features may be limited in private mode. You can continue.",
     "data": "Data loading error. Please refresh the page.",

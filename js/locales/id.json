@@ -61,6 +61,10 @@
     "touchControl": "Sentuh & seret",
     "touch2p": "Sisi kiri = P1 / Sisi kanan = P2"
   },
+  "streak": {
+    "label": "STREAK",
+    "multiplier": "Pengali"
+  },
   "error": {
     "storage": "Beberapa fitur mungkin terbatas dalam mode privat.",
     "data": "Kesalahan memuat data. Silakan muat ulang.",

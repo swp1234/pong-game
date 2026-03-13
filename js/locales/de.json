@@ -61,6 +61,10 @@
     "touchControl": "Tippen & ziehen",
     "touch2p": "Linke Hälfte = P1 / Rechte Hälfte = P2"
   },
+  "streak": {
+    "label": "SERIE",
+    "multiplier": "Multiplikator"
+  },
   "error": {
     "storage": "Einige Funktionen sind im privaten Modus eingeschränkt.",
     "data": "Fehler beim Laden. Bitte Seite aktualisieren.",

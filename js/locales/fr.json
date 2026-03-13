@@ -61,6 +61,10 @@
     "touchControl": "Toucher et glisser",
     "touch2p": "Moitié gauche = P1 / Moitié droite = P2"
   },
+  "streak": {
+    "label": "S\u00C9RIE",
+    "multiplier": "Multiplicateur"
+  },
   "error": {
     "storage": "Certaines fonctions peuvent être limitées en mode privé.",
     "data": "Erreur de chargement. Veuillez rafraîchir la page.",

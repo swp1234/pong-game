@@ -61,6 +61,10 @@
     "touchControl": "触摸拖动",
     "touch2p": "左半边 = P1 / 右半边 = P2"
   },
+  "streak": {
+    "label": "\u8FDE\u51FB",
+    "multiplier": "\u500D\u7387"
+  },
   "error": {
     "storage": "隐私模式下部分功能可能受限。",
     "data": "数据加载错误，请刷新页面。",
