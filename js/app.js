@@ -543,70 +543,74 @@ function gameLoop() {
         return;
     }
 
-    // Update
-    ball.update();
-    paddle1.update();
-    paddle2.update();
+    try {
+        // Update
+        ball.update();
+        paddle1.update();
+        paddle2.update();
 
-    // Handle AI (1P mode)
-    if (gameState.gameMode === '1p') {
-        updateAI();
+        // Handle AI (1P mode)
+        if (gameState.gameMode === '1p') {
+            updateAI();
+        }
+
+        // Power-ups
+        updatePowerUps();
+
+        // Collision - Paddles
+        handlePaddleCollision();
+
+        // Collision - Boundaries (score)
+        if (ball.x < 0) {
+            // P2 scores — apply P2 streak multiplier
+            const p2Mult = getStreakMultiplier(gameState.p2ReturnStreak);
+            const p2Points = Math.floor(1 * p2Mult);
+            gameState.score.p2 += p2Points;
+            gameState.ballHits = 0;
+            playSound('score');
+            if (typeof Haptic !== 'undefined') Haptic.medium();
+            createParticles(ball.x, ball.y);
+            triggerShake(6, 10);
+            const p2Label = p2Mult > 1 ? `+${p2Points} (${p2Mult}x)` : '+1';
+            addFloatingText(p2Label, GAME_CONFIG.CANVAS_WIDTH * 0.75, GAME_CONFIG.CANVAS_HEIGHT / 2, p2Mult > 1 ? '#fbbf24' : '#2ecc71', p2Mult > 1 ? 42 : 36);
+            // Reset both streaks
+            gameState.p1ReturnStreak = 0;
+            gameState.p2ReturnStreak = 0;
+            updateStreakUI();
+            ball.reset();
+        } else if (ball.x > GAME_CONFIG.CANVAS_WIDTH) {
+            // P1 scores — apply P1 streak multiplier
+            const p1Mult = getStreakMultiplier(gameState.p1ReturnStreak);
+            const p1Points = Math.floor(1 * p1Mult);
+            gameState.score.p1 += p1Points;
+            gameState.ballHits = 0;
+            playSound('score');
+            if (typeof Haptic !== 'undefined') Haptic.medium();
+            createParticles(ball.x, ball.y);
+            triggerShake(6, 10);
+            const p1Label = p1Mult > 1 ? `+${p1Points} (${p1Mult}x)` : '+1';
+            addFloatingText(p1Label, GAME_CONFIG.CANVAS_WIDTH * 0.25, GAME_CONFIG.CANVAS_HEIGHT / 2, p1Mult > 1 ? '#fbbf24' : '#2ecc71', p1Mult > 1 ? 42 : 36);
+            // Reset both streaks
+            gameState.p1ReturnStreak = 0;
+            gameState.p2ReturnStreak = 0;
+            updateStreakUI();
+            ball.reset();
+        }
+
+        // Check win condition
+        if (gameState.score.p1 >= GAME_CONFIG.WIN_SCORE || gameState.score.p2 >= GAME_CONFIG.WIN_SCORE) {
+            endGame();
+            return;
+        }
+
+        // Update UI
+        updateGameUI();
+
+        // Draw
+        draw();
+    } catch (e) {
+        console.error('Game loop error:', e);
     }
-
-    // Power-ups
-    updatePowerUps();
-
-    // Collision - Paddles
-    handlePaddleCollision();
-
-    // Collision - Boundaries (score)
-    if (ball.x < 0) {
-        // P2 scores — apply P2 streak multiplier
-        const p2Mult = getStreakMultiplier(gameState.p2ReturnStreak);
-        const p2Points = Math.floor(1 * p2Mult);
-        gameState.score.p2 += p2Points;
-        gameState.ballHits = 0;
-        playSound('score');
-        if (typeof Haptic !== 'undefined') Haptic.medium();
-        createParticles(ball.x, ball.y);
-        triggerShake(6, 10);
-        const p2Label = p2Mult > 1 ? `+${p2Points} (${p2Mult}x)` : '+1';
-        addFloatingText(p2Label, GAME_CONFIG.CANVAS_WIDTH * 0.75, GAME_CONFIG.CANVAS_HEIGHT / 2, p2Mult > 1 ? '#fbbf24' : '#2ecc71', p2Mult > 1 ? 42 : 36);
-        // Reset both streaks
-        gameState.p1ReturnStreak = 0;
-        gameState.p2ReturnStreak = 0;
-        updateStreakUI();
-        ball.reset();
-    } else if (ball.x > GAME_CONFIG.CANVAS_WIDTH) {
-        // P1 scores — apply P1 streak multiplier
-        const p1Mult = getStreakMultiplier(gameState.p1ReturnStreak);
-        const p1Points = Math.floor(1 * p1Mult);
-        gameState.score.p1 += p1Points;
-        gameState.ballHits = 0;
-        playSound('score');
-        if (typeof Haptic !== 'undefined') Haptic.medium();
-        createParticles(ball.x, ball.y);
-        triggerShake(6, 10);
-        const p1Label = p1Mult > 1 ? `+${p1Points} (${p1Mult}x)` : '+1';
-        addFloatingText(p1Label, GAME_CONFIG.CANVAS_WIDTH * 0.25, GAME_CONFIG.CANVAS_HEIGHT / 2, p1Mult > 1 ? '#fbbf24' : '#2ecc71', p1Mult > 1 ? 42 : 36);
-        // Reset both streaks
-        gameState.p1ReturnStreak = 0;
-        gameState.p2ReturnStreak = 0;
-        updateStreakUI();
-        ball.reset();
-    }
-
-    // Check win condition
-    if (gameState.score.p1 >= GAME_CONFIG.WIN_SCORE || gameState.score.p2 >= GAME_CONFIG.WIN_SCORE) {
-        endGame();
-        return;
-    }
-
-    // Update UI
-    updateGameUI();
-
-    // Draw
-    draw();
 
     gameLoopId = requestAnimationFrame(gameLoop);
 }
