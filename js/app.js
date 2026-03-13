@@ -41,7 +41,13 @@ const GAME_CONFIG = {
 
     // Game
     WIN_SCORE: 11,
-    PARTICLE_COUNT: 10
+    PARTICLE_COUNT: 10,
+
+    // Power-ups
+    POWERUP_SPAWN_INTERVAL: 8000, // ms between spawns
+    POWERUP_SIZE: 20,
+    POWERUP_DURATION: 5000, // effect duration ms
+    POWERUP_TYPES: ['bigPaddle', 'shrinkOpponent', 'speedBall']
 };
 
 // ====================================
@@ -309,6 +315,134 @@ let paddle2 = new Paddle(GAME_CONFIG.CANVAS_WIDTH - GAME_CONFIG.CANVAS_MARGIN - 
 let gameLoopId = null;
 let gameTimerId = null;
 
+// Power-up system
+const powerUps = [];
+let powerUpTimer = null;
+const activeEffects = { p1: [], p2: [] };
+
+const POWERUP_DEFS = {
+    bigPaddle:      { emoji: '🔼', color: '#2ecc71', name: 'BIG PADDLE' },
+    shrinkOpponent: { emoji: '🔽', color: '#e74c3c', name: 'SHRINK' },
+    speedBall:      { emoji: '⚡', color: '#f39c12', name: 'SPEED BALL' }
+};
+
+function spawnPowerUp() {
+    if (!gameState.isGameRunning || gameState.isPaused) return;
+    const type = GAME_CONFIG.POWERUP_TYPES[Math.floor(Math.random() * GAME_CONFIG.POWERUP_TYPES.length)];
+    const margin = 120;
+    const x = margin + Math.random() * (GAME_CONFIG.CANVAS_WIDTH - margin * 2);
+    const y = 40 + Math.random() * (GAME_CONFIG.CANVAS_HEIGHT - 80);
+    powerUps.push({ type, x, y, radius: GAME_CONFIG.POWERUP_SIZE / 2, pulse: 0, life: 300 });
+}
+
+function applyPowerUp(type, collector) {
+    const opponent = collector === 'p1' ? 'p2' : 'p1';
+    const paddle = collector === 'p1' ? paddle1 : paddle2;
+    const oppPaddle = collector === 'p1' ? paddle2 : paddle1;
+    const def = POWERUP_DEFS[type];
+
+    addFloatingText(def.emoji + ' ' + def.name, GAME_CONFIG.CANVAS_WIDTH / 2, GAME_CONFIG.CANVAS_HEIGHT / 2 - 60, def.color, 26);
+    playSound('paddleHit');
+    triggerShake(3, 4);
+
+    switch (type) {
+        case 'bigPaddle': {
+            const origHeight = paddle.height;
+            paddle.height = Math.min(paddle.height * 1.6, 180);
+            const effectId = setTimeout(() => { paddle.height = origHeight; }, GAME_CONFIG.POWERUP_DURATION);
+            activeEffects[collector].push(effectId);
+            break;
+        }
+        case 'shrinkOpponent': {
+            const origHeight = oppPaddle.height;
+            oppPaddle.height = Math.max(oppPaddle.height * 0.5, 30);
+            const effectId = setTimeout(() => { oppPaddle.height = origHeight; }, GAME_CONFIG.POWERUP_DURATION);
+            activeEffects[opponent].push(effectId);
+            break;
+        }
+        case 'speedBall': {
+            const origMax = GAME_CONFIG.BALL_SPEED_MAX;
+            const boost = 1.5;
+            ball.vx *= boost;
+            ball.vy *= boost;
+            GAME_CONFIG.BALL_SPEED_MAX *= boost;
+            const effectId = setTimeout(() => {
+                GAME_CONFIG.BALL_SPEED_MAX = origMax;
+                const speed = Math.sqrt(ball.vx * ball.vx + ball.vy * ball.vy);
+                if (speed > origMax) {
+                    const scale = origMax / speed;
+                    ball.vx *= scale;
+                    ball.vy *= scale;
+                }
+            }, GAME_CONFIG.POWERUP_DURATION);
+            activeEffects[collector].push(effectId);
+            break;
+        }
+    }
+}
+
+function updatePowerUps() {
+    for (let i = powerUps.length - 1; i >= 0; i--) {
+        const pu = powerUps[i];
+        pu.pulse = (pu.pulse + 0.05) % (Math.PI * 2);
+        pu.life--;
+        if (pu.life <= 0) { powerUps.splice(i, 1); continue; }
+
+        // Check ball collision
+        const dx = ball.x - pu.x;
+        const dy = ball.y - pu.y;
+        if (Math.sqrt(dx * dx + dy * dy) < pu.radius + GAME_CONFIG.BALL_SIZE) {
+            // Determine which player last hit the ball
+            const collector = ball.vx > 0 ? 'p1' : 'p2';
+            applyPowerUp(pu.type, collector);
+            powerUps.splice(i, 1);
+        }
+    }
+}
+
+function drawPowerUps() {
+    powerUps.forEach(pu => {
+        const def = POWERUP_DEFS[pu.type];
+        const pulseScale = 1 + Math.sin(pu.pulse) * 0.15;
+        const r = pu.radius * pulseScale;
+
+        // Glow
+        ctx.save();
+        ctx.shadowColor = def.color;
+        ctx.shadowBlur = 12 + Math.sin(pu.pulse) * 6;
+        ctx.globalAlpha = pu.life < 60 ? pu.life / 60 : 1;
+
+        // Circle bg
+        ctx.fillStyle = def.color + '33';
+        ctx.beginPath();
+        ctx.arc(pu.x, pu.y, r + 4, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.strokeStyle = def.color;
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(pu.x, pu.y, r + 4, 0, Math.PI * 2);
+        ctx.stroke();
+
+        // Emoji
+        ctx.font = `${Math.floor(r * 1.6)}px sans-serif`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(def.emoji, pu.x, pu.y);
+
+        ctx.restore();
+    });
+}
+
+function clearPowerUps() {
+    powerUps.length = 0;
+    ['p1', 'p2'].forEach(p => {
+        activeEffects[p].forEach(id => clearTimeout(id));
+        activeEffects[p] = [];
+    });
+    if (powerUpTimer) { clearInterval(powerUpTimer); powerUpTimer = null; }
+}
+
 // Screen shake & floating text
 let shakeAmount = 0;
 let shakeFrames = 0;
@@ -396,6 +530,9 @@ function startGame(mode) {
     // Re-fit canvas after screen switch
     setTimeout(() => resizeCanvas(), 50);
 
+    clearPowerUps();
+    powerUpTimer = setInterval(spawnPowerUp, GAME_CONFIG.POWERUP_SPAWN_INTERVAL);
+
     gameLoopId = requestAnimationFrame(gameLoop);
     gameTimerId = setInterval(updateGameTime, 1000);
 }
@@ -415,6 +552,9 @@ function gameLoop() {
     if (gameState.gameMode === '1p') {
         updateAI();
     }
+
+    // Power-ups
+    updatePowerUps();
 
     // Collision - Paddles
     handlePaddleCollision();
@@ -497,7 +637,11 @@ function handlePaddleCollision() {
             triggerShake(3, 4);
             updateStreakUI();
             if (gameState.ballHits > 0 && gameState.ballHits % 5 === 0) {
-                addFloatingText(`${gameState.ballHits} RALLY!`, GAME_CONFIG.CANVAS_WIDTH / 2, GAME_CONFIG.CANVAS_HEIGHT / 2 - 40, '#f39c12', 28);
+                const rallyMilestone = gameState.ballHits >= 30 ? '🔥🔥🔥' : gameState.ballHits >= 20 ? '🔥🔥' : gameState.ballHits >= 10 ? '🔥' : '⚡';
+                const rallySize = gameState.ballHits >= 20 ? 36 : 28;
+                const rallyColor = gameState.ballHits >= 20 ? '#ff6b6b' : '#f39c12';
+                addFloatingText(`${rallyMilestone} ${gameState.ballHits} RALLY!`, GAME_CONFIG.CANVAS_WIDTH / 2, GAME_CONFIG.CANVAS_HEIGHT / 2 - 40, rallyColor, rallySize);
+                if (gameState.ballHits >= 20) triggerShake(5, 8);
             }
             // Streak milestone flash
             if (gameState.p1ReturnStreak === 5 || gameState.p1ReturnStreak === 10 || gameState.p1ReturnStreak === 15) {
@@ -533,7 +677,11 @@ function handlePaddleCollision() {
             triggerShake(3, 4);
             updateStreakUI();
             if (gameState.ballHits > 0 && gameState.ballHits % 5 === 0) {
-                addFloatingText(`${gameState.ballHits} RALLY!`, GAME_CONFIG.CANVAS_WIDTH / 2, GAME_CONFIG.CANVAS_HEIGHT / 2 - 40, '#f39c12', 28);
+                const rallyMilestone = gameState.ballHits >= 30 ? '🔥🔥🔥' : gameState.ballHits >= 20 ? '🔥🔥' : gameState.ballHits >= 10 ? '🔥' : '⚡';
+                const rallySize = gameState.ballHits >= 20 ? 36 : 28;
+                const rallyColor = gameState.ballHits >= 20 ? '#ff6b6b' : '#f39c12';
+                addFloatingText(`${rallyMilestone} ${gameState.ballHits} RALLY!`, GAME_CONFIG.CANVAS_WIDTH / 2, GAME_CONFIG.CANVAS_HEIGHT / 2 - 40, rallyColor, rallySize);
+                if (gameState.ballHits >= 20) triggerShake(5, 8);
             }
             // Streak milestone flash
             if (gameState.p2ReturnStreak === 5 || gameState.p2ReturnStreak === 10 || gameState.p2ReturnStreak === 15) {
@@ -617,6 +765,7 @@ function draw() {
     ctx.strokeRect(0, 0, GAME_CONFIG.CANVAS_WIDTH, GAME_CONFIG.CANVAS_HEIGHT);
 
     // Draw objects
+    drawPowerUps();
     paddle1.draw();
     paddle2.draw();
     ball.draw();
@@ -667,6 +816,10 @@ function endGame() {
     gameState.isGameRunning = false;
     cancelAnimationFrame(gameLoopId);
     clearInterval(gameTimerId);
+    clearPowerUps();
+    // Reset paddle sizes
+    paddle1.height = gameState.paddleSize;
+    paddle2.height = gameState.paddleSize;
 
     // Update stats
     gameState.stats.totalGames++;
