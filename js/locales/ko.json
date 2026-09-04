@@ -48,7 +48,7 @@
     "youLose": "패배했습니다.",
     "tieGame": "동점!",
     "controlHint": "P1: W/S 키 | P2: 방향키 ↑/↓",
-    "shareScore": "점수 공유"
+    "shareScore": "게임 공유"
   },
   "help": {
     "title": "게임 방법",

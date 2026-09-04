@@ -48,7 +48,7 @@
     "youLose": "Вы проиграли!",
     "tieGame": "Ничья!",
     "controlHint": "P1: клавиши W/S | P2: стрелки ↑/↓",
-    "shareScore": "Поделиться"
+    "shareScore": "Поделиться игрой"
   },
   "help": {
     "title": "Как играть",

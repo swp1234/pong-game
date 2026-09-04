@@ -111,6 +111,16 @@ const gameState = {
     streakFlashTimer: 0
 };
 
+const trackedStages = new Set();
+
+function trackStage(eventName, targetSlug = '') {
+    if (trackedStages.has(eventName)) return;
+    trackedStages.add(eventName);
+    if (typeof window.gtag !== 'function') return;
+    const params = targetSlug ? { target_slug: targetSlug } : {};
+    window.gtag('event', eventName, params);
+}
+
 // ====================================
 // CANVAS & GRAPHICS
 // ====================================
@@ -500,6 +510,7 @@ function triggerStreakFlash() {
 }
 
 function startGame(mode) {
+    trackStage('pong_start');
     gameState.gameMode = mode;
     gameState.score = { p1: 0, p2: 0 };
     gameState.gameTime = 0;
@@ -817,6 +828,7 @@ function updateGameUI() {
 }
 
 function endGame() {
+    trackStage('pong_complete');
     gameState.isGameRunning = false;
     cancelAnimationFrame(gameLoopId);
     clearInterval(gameTimerId);
@@ -844,22 +856,7 @@ function endGame() {
         showNewBest();
     }
 
-    // Report to daily streak
-    if (typeof DailyStreak !== 'undefined') DailyStreak.report(playerScore);
-
-    if (typeof GameAchievements !== 'undefined') GameAchievements.report({
-      bestScore: parseInt(localStorage.getItem('pongBestScore')) || 0,
-      totalWins: gameState.stats.totalWins,
-      totalGames: gameState.stats.totalGames,
-      bestStreak: gameState.stats.bestStreak
-    });
-
-    // Show game over screen (with interstitial ad)
-    if (typeof GameAds !== 'undefined') {
-        GameAds.showInterstitial({ onComplete: () => { showGameOverScreen(); } });
-    } else {
-        showGameOverScreen();
-    }
+    showGameOverScreen();
 }
 
 function pauseGame() {
@@ -1024,22 +1021,6 @@ function showGameOverScreen() {
     if (typeof Haptic !== 'undefined') Haptic.heavy();
     showScreen('gameover-screen');
 
-    // Rewarded ad — watch ad for 2x score
-    if (typeof GameAds !== 'undefined') {
-        GameAds.injectRewardButton({
-            container: '#gameover-screen',
-            label: 'Watch Ad for 2x Score',
-            onReward: () => {
-                gameState.score.p1 *= 2;
-                document.getElementById('final-score').textContent = `${gameState.score.p1} - ${gameState.score.p2}`;
-                const prevBest = parseInt(localStorage.getItem('pongBestScore') || '0', 10);
-                if (gameState.score.p1 > prevBest) {
-                    localStorage.setItem('pongBestScore', gameState.score.p1);
-                    showNewBest();
-                }
-            }
-        });
-    }
 }
 
 function loadStats() {
@@ -1153,24 +1134,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     initCanvas();
     loadStats();
     updateStatsUI();
-
-    // Daily streak retention
-    if (typeof DailyStreak !== 'undefined') DailyStreak.init({ gameId: 'pong-game', bestScoreKey: 'pongBestScore', minTarget: 3 });
-    if (typeof GameAds !== 'undefined') GameAds.init();
-
-    if (typeof GameAchievements !== 'undefined') GameAchievements.init({
-      gameId: 'pong-game',
-      defs: [
-        { id: 'score_5', stat: 'bestScore', target: 5, icon: '\uD83C\uDFD3', name: 'Rally Starter' },
-        { id: 'score_10', stat: 'bestScore', target: 10, icon: '\uD83C\uDFD3', name: 'Rally King' },
-        { id: 'wins_5', stat: 'totalWins', target: 5, icon: '\uD83C\uDFC6', name: 'Winner' },
-        { id: 'wins_20', stat: 'totalWins', target: 20, icon: '\uD83C\uDFC6', name: 'Champion' },
-        { id: 'games_10', stat: 'totalGames', target: 10, icon: '\uD83C\uDFAE', name: 'Regular' },
-        { id: 'games_50', stat: 'totalGames', target: 50, icon: '\uD83C\uDFAE', name: 'Veteran' },
-        { id: 'streak_3', stat: 'bestStreak', target: 3, icon: '\uD83D\uDD25', name: 'Streak Starter' },
-        { id: 'streak_10', stat: 'bestStreak', target: 10, icon: '\uD83D\uDD25', name: 'Unstoppable' },
-      ]
-    });
 
     // Touch/Mouse handlers for paddles (must be after initCanvas)
     let touchStartY = 0;
@@ -1291,30 +1254,35 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Game over buttons
     document.getElementById('btn-replay').addEventListener('click', () => {
-        if (typeof GameAds !== 'undefined') GameAds.removeRewardButton('#gameover-screen');
         const mode = gameState.gameMode;
         startGame(mode);
     });
 
     document.getElementById('btn-menu-final').addEventListener('click', () => {
-        if (typeof GameAds !== 'undefined') GameAds.removeRewardButton('#gameover-screen');
         showScreen('menu-screen');
     });
 
-    // Share score button
-    document.getElementById('share-score-btn').addEventListener('click', () => {
-        const score = gameState.score.p1;
-        const text = `I scored ${score} in Pong! Can you beat me? \uD83C\uDFD3`;
+    // Share only a neutral route after the platform action succeeds.
+    document.getElementById('share-score-btn').addEventListener('click', async () => {
+        const text = 'I played Pong on DopaBrain. \uD83C\uDFD3';
         const url = 'https://dopabrain.com/pong-game/';
-        if (navigator.share) {
-            navigator.share({ title: 'Pong', text, url }).catch(() => {});
-        } else {
-            navigator.clipboard.writeText(text + '\n' + url).then(() => {
+        try {
+            if (navigator.share) {
+                await navigator.share({ title: 'Pong', text, url });
+            } else {
+                await navigator.clipboard.writeText(text + '\n' + url);
                 const btn = document.getElementById('share-score-btn');
                 if (btn) { const orig = btn.textContent; btn.textContent = 'Copied!'; setTimeout(() => btn.textContent = orig, 1500); }
-            }).catch(() => {});
+            }
+            trackStage('pong_share');
+        } catch (_) {
+            // Cancellation and clipboard failures are not successful shares.
         }
-        if (typeof gtag === 'function') gtag('event', 'share', { method: navigator.share ? 'native' : 'clipboard', app_name: 'pong-game' });
+    });
+
+    document.addEventListener('click', (event) => {
+        const link = event.target.closest('[data-related-slug]');
+        if (link) trackStage('pong_related_click', link.dataset.relatedSlug);
     });
 
     // Language selector
@@ -1355,13 +1323,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.getElementById('paddle-size-display').textContent = gameState.paddleSize + 'px';
     }
 
-    // GA4 tracking
-    if (window.gtag) {
-        gtag('event', 'page_view', {
-            'page_title': 'Pong Game',
-            'page_location': window.location.href
-        });
-    }
+    trackStage('pong_view');
   } catch(e) {
     console.error('Init error:', e);
   } finally {
@@ -1372,32 +1334,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 });
-
-// Track game events
-function trackGameEvent(eventName, params = {}) {
-    if (window.gtag) {
-        gtag('event', eventName, params);
-    }
-}
-
-// Override game start to track
-const originalStartGame = startGame;
-window.startGame = function (mode) {
-    trackGameEvent('game_start', { mode: mode });
-    originalStartGame(mode);
-};
-
-// Override end game to track
-const originalEndGame = endGame;
-window.endGame = function () {
-    trackGameEvent('game_end', {
-        mode: gameState.gameMode,
-        score_p1: gameState.score.p1,
-        score_p2: gameState.score.p2,
-        duration: gameState.gameTime
-    });
-    originalEndGame();
-};
 
 function showNewBest() {
     let el = document.getElementById('new-best-flash');

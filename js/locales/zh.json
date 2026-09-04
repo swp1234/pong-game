@@ -48,7 +48,7 @@
     "youLose": "你输了。",
     "tieGame": "平局！",
     "controlHint": "P1: W/S键 | P2: 方向键↑/↓",
-    "shareScore": "分享分数"
+    "shareScore": "分享游戏"
   },
   "help": {
     "title": "玩法说明",
